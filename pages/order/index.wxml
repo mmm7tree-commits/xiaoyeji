@@ -1,0 +1,78 @@
+<view class="page-shell order-page" wx:if="{{work}}">
+  <view class="order-work card">
+    <view class="work-cover" style="background: linear-gradient(135deg, {{work.coverTone}}, {{work.accentTone}});">
+      <image wx:if="{{work.photos[0]}}" src="{{work.photos[0].path}}" class="cover-img" mode="aspectFill" lazy-load="true"></image>
+    </view>
+    <view class="work-info">
+      <view class="work-title">{{work.title}}</view>
+      <view class="work-meta">{{work.templateName}} · {{work.pageCount}} 页 · {{work.photoCount}} 张照片</view>
+      <view class="work-submeta">{{templateVersionText}} · {{templateSourceText}}</view>
+      <view class="work-price">{{unitPriceText}} / 本</view>
+    </view>
+  </view>
+
+  <view class="section soft-card asset-note">
+    <view class="section-title">图片资源状态</view>
+    <view class="section-subtitle">{{assetHintText}}</view>
+    <view class="asset-meta">当前用于预览与后续履约的图片，已按作品快照中的服务端资源引用读取。</view>
+  </view>
+
+  <view class="section card address-card" bindtap="manageAddress">
+    <view class="between">
+      <view>
+        <view class="section-title">收货地址</view>
+        <view wx:if="{{hasAddress}}" class="address-text">{{address.name}} {{address.phone}}</view>
+        <view wx:if="{{hasAddress}}" class="address-detail">{{address.region}} {{address.detail}}</view>
+        <view wx:elif="{{addressLoading}}" class="section-subtitle">正在读取默认地址...</view>
+        <view wx:else class="section-subtitle">{{addressHintText}}</view>
+      </view>
+      <view class="address-link">{{addressLinkText}}</view>
+    </view>
+  </view>
+
+  <view class="section card">
+    <view class="between order-line">
+      <text>购买数量</text>
+      <view class="quantity">
+        <button bindtap="decreaseQuantity">-</button>
+        <text>{{quantity}}</text>
+        <button bindtap="increaseQuantity">+</button>
+      </view>
+    </view>
+    <view class="between order-line order-price-line">
+      <text>单本价格</text>
+      <text class="price-inline">{{unitPriceText}}</text>
+    </view>
+    <view class="between order-line order-price-line">
+      <text>作品信息</text>
+      <text class="order-meta-inline">{{work.pageCount}} 页 · {{work.photoCount}} 张</text>
+    </view>
+    <view class="between order-line order-price-line">
+      <text>模板版本</text>
+      <text class="order-meta-inline">{{templateVersionText}}</text>
+    </view>
+    <view class="order-line">
+      <text>订单备注</text>
+      <textarea class="remark" maxlength="80" placeholder="可填写班级、姓名或制作备注" value="{{remark}}" bindinput="inputRemark"></textarea>
+    </view>
+  </view>
+
+  <view class="section soft-card pay-note">
+    {{orderHintText}}
+  </view>
+
+  <view class="bottom-actions">
+    <view class="total">
+      <text class="total-label">合计</text>
+      <text class="total-price">{{amountText}}</text>
+    </view>
+    <button class="primary-btn" loading="{{isSubmitting}}" disabled="{{isSubmitting || !assetReady}}" bindtap="submitOrder">{{submitButtonText}}</button>
+  </view>
+</view>
+
+<view class="page-shell order-page" wx:elif="{{loading}}">
+  <view class="card loading-card">
+    <view class="section-title">正在准备订单信息</view>
+    <view class="section-subtitle">先读取作品快照、图片资源和默认地址。</view>
+  </view>
+</view>

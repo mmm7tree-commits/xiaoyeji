@@ -1,0 +1,43 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/template-detail/index",
+    "pages/work-detail/index",
+    "pages/works/index",
+    "pages/profile/index",
+    "pages/preview/index",
+    "pages/order/index",
+    "pages/order-list/index",
+    "pages/order-detail/index",
+    "pages/address/index",
+    "pages/admin/dashboard/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "小页记",
+    "navigationBarBackgroundColor": "#F5F6F5",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F5F6F5",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#8A9290",
+    "selectedColor": "#31A381",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/works/index",
+        "text": "作品集"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

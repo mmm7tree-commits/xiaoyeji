@@ -1,0 +1,122 @@
+<view class="page-shell template-detail-page">
+  <block wx:if="{{loading}}">
+    <view class="card detail-card">
+      <view class="section-title">正在打开这套模板</view>
+      <view class="section-subtitle">马上进入制作页，继续补充封面信息和照片。</view>
+    </view>
+  </block>
+
+  <block wx:elif="{{loadFailed}}">
+    <view class="empty-state">
+      <view class="empty-title">模板详情暂时没有加载出来</view>
+      <view class="empty-text">{{errorText}}</view>
+      <button class="primary-btn retry-btn" bindtap="retryLoad">重新加载</button>
+    </view>
+  </block>
+
+  <block wx:else>
+    <view class="detail-stack">
+      <view class="card detail-card">
+        <image class="detail-cover" src="{{template.coverImage}}" mode="aspectFill" lazy-load="true"></image>
+        <view class="detail-pills">
+          <view class="pill green">{{template.badgeText}}</view>
+          <view class="pill blue">{{template.categoryName}}</view>
+          <view class="pill">{{template.themeLabel}}</view>
+        </view>
+        <view class="detail-title">{{template.name}}</view>
+        <view class="detail-text">{{template.description}}</view>
+        <view class="detail-text">{{templateSourceText}}</view>
+        <view class="detail-text">{{templateVersionText}}</view>
+        <view class="detail-meta-row">
+          <view class="detail-meta-card soft-card">
+            <view class="detail-meta-label">建议预览</view>
+            <view class="detail-meta-value">{{suggestedMinPhotos}} - {{maxPhotos}} 张</view>
+          </view>
+          <view class="detail-meta-card soft-card">
+            <view class="detail-meta-label">保存作品</view>
+            <view class="detail-meta-value">至少 {{orderMinPhotos}} 张</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="card detail-card">
+        <view class="section-title">封面信息</view>
+        <view class="section-subtitle">本轮只填写这 3 项：封面标题、幼儿园/宝宝信息、封面短语。</view>
+
+        <view class="field-stack">
+          <view class="field-item">
+            <view class="field-label">封面标题</view>
+            <input class="field-input" maxlength="18" placeholder="例如：小一班毕业啦" value="{{coverTitle}}" bindinput="onCoverTitleInput" />
+          </view>
+
+          <view class="field-item">
+            <view class="field-label">幼儿园 / 宝宝信息</view>
+            <input class="field-input" maxlength="28" placeholder="例如：向日葵幼儿园 · 小一班" value="{{babyInfo}}" bindinput="onBabyInfoInput" />
+          </view>
+
+          <view class="field-item">
+            <view class="field-label">封面短语</view>
+            <textarea class="field-textarea" maxlength="32" placeholder="例如：把最后一个夏天的笑脸留在这里" value="{{coverPhrase}}" bindinput="onCoverPhraseInput"></textarea>
+          </view>
+        </view>
+      </view>
+
+      <view class="card detail-card">
+        <view class="between detail-action-head">
+          <view>
+            <view class="section-title">上传照片</view>
+            <view class="section-subtitle">{{photoCountText}}</view>
+          </view>
+          <button class="ghost-btn upload-btn" loading="{{isSavingPhotos}}" disabled="{{isSavingPhotos}}" bindtap="uploadPhotos">添加照片</button>
+        </view>
+
+        <view class="photo-note soft-card">
+          <view class="photo-note-title">当前规则</view>
+          <view class="photo-note-text">{{photoOrderText}}</view>
+          <view class="photo-note-text">{{uploadLimitText}}</view>
+          <view class="photo-note-text">{{previewRuleText}}</view>
+          <view class="photo-note-text">{{saveRuleText}}</view>
+        </view>
+
+        <view wx:if="{{photos.length}}" class="photo-grid">
+          <view wx:for="{{photos}}" wx:key="id" class="photo-cell">
+            <image class="photo-thumb" src="{{item.path}}" mode="aspectFill" lazy-load="true"></image>
+            <view class="photo-index">第 {{index + 1}} 张</view>
+            <button class="photo-remove" data-id="{{item.id}}" bindtap="removePhoto">移除</button>
+          </view>
+        </view>
+        <view wx:else class="upload-empty" bindtap="uploadPhotos">
+          <view class="upload-plus">+</view>
+          <view class="empty-title">先添加孩子的照片</view>
+          <view class="empty-text">上传后会按你当前的选择顺序保存，预览页也会先按这个顺序排版。</view>
+        </view>
+      </view>
+
+      <view class="card detail-card">
+        <view class="section-title">完整预览入口</view>
+        <view class="section-subtitle">{{previewSummaryText}}</view>
+        <button class="primary-btn select-btn" disabled="{{!canPreview}}" bindtap="openFullPreview">查看完整预览</button>
+      </view>
+
+      <view class="card detail-card">
+        <view class="section-title">保存到我的作品</view>
+        <view class="section-subtitle">{{saveSummaryText}}</view>
+        <button class="ghost-btn select-btn" loading="{{isSavingWork}}" disabled="{{!canSaveWork || isSavingWork}}" bindtap="saveCurrentWork">{{saveButtonText}}</button>
+      </view>
+
+      <view class="card detail-card">
+        <view class="section-title">模板风格参考</view>
+        <view class="chip-list">
+          <text wx:for="{{template.storyHighlights}}" wx:key="*this" class="pill green">{{item}}</text>
+        </view>
+        <view class="section-title detail-sub-title">适合这些照片场景</view>
+        <view class="chip-list">
+          <text wx:for="{{template.suitableScenes}}" wx:key="*this" class="pill blue">{{item}}</text>
+        </view>
+        <scroll-view class="preview-scroll" scroll-x="true" enable-flex="true">
+          <image wx:for="{{template.previewImages}}" wx:key="*this" class="preview-image" src="{{item}}" mode="aspectFill" lazy-load="true"></image>
+        </scroll-view>
+      </view>
+    </view>
+  </block>
+</view>

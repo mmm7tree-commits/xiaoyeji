@@ -1,0 +1,54 @@
+<view class="page-shell address-page">
+  <view class="card">
+    <view class="between">
+      <view>
+        <view class="section-title">收货地址</view>
+        <view class="section-subtitle">用于实体纪念册制作完成后发货</view>
+      </view>
+      <button class="ghost-btn" bindtap="importWechatAddress">微信导入</button>
+    </view>
+  </view>
+
+  <view wx:if="{{addresses.length}}" class="address-list section">
+    <view wx:for="{{addresses}}" wx:key="id" class="address-item card">
+      <view class="between">
+        <view>
+          <view class="address-name">{{item.name}} {{item.phone}}</view>
+          <view class="address-detail">{{item.region}} {{item.detail}}</view>
+        </view>
+        <view class="address-actions">
+          <button wx:if="{{!item.isDefault}}" class="ghost-btn" data-id="{{item.id}}" bindtap="setDefaultAddress">设为默认</button>
+          <button class="ghost-btn" data-id="{{item.id}}" bindtap="editAddress">编辑</button>
+          <button class="ghost-btn danger-btn" data-id="{{item.id}}" bindtap="deleteAddress">删除</button>
+        </view>
+      </view>
+      <view wx:if="{{item.isDefault}}" class="pill green default-pill">默认地址</view>
+    </view>
+  </view>
+
+  <view wx:else class="empty-state section">
+    <view class="empty-title">还没有收货地址</view>
+    <view class="empty-text">先新增一个默认地址，确认订单页就会自动带出。</view>
+  </view>
+
+  <view class="section card address-form">
+    <view class="between">
+      <view class="section-title">{{formTitle}}</view>
+      <button wx:if="{{canCancelEdit}}" class="ghost-btn" bindtap="cancelEdit">取消编辑</button>
+    </view>
+    <input class="input" placeholder="收货人姓名" value="{{form.name}}" data-field="name" bindinput="inputField" />
+    <input class="input" placeholder="手机号" type="number" maxlength="11" value="{{form.phone}}" data-field="phone" bindinput="inputField" />
+    <picker mode="region" value="{{form.region}}" bindchange="changeRegion">
+      <view class="input picker-text">{{regionDisplayText}}</view>
+    </picker>
+    <textarea class="textarea" placeholder="详细地址，如街道、门牌号" value="{{form.detail}}" data-field="detail" bindinput="inputField"></textarea>
+    <view class="default-row soft-card">
+      <view>
+        <view class="default-title">设为默认地址</view>
+        <view class="default-copy">确认订单页会优先带出默认地址</view>
+      </view>
+      <switch checked="{{form.isDefault}}" color="#31A381" bindchange="changeDefaultSwitch"></switch>
+    </view>
+    <button class="primary-btn" bindtap="saveManualAddress">{{submitText}}</button>
+  </view>
+</view>

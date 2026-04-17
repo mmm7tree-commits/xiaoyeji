@@ -1,0 +1,67 @@
+.order-list-page {
+  padding-bottom: 72rpx;
+}
+
+.login-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+}
+
+.login-btn + .login-btn {
+  margin-top: 0;
+}
+
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22rpx;
+}
+
+.order-title {
+  color: #2e2823;
+  font-size: 30rpx;
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.order-meta {
+  margin-top: 8rpx;
+  color: #7f8a86;
+  font-size: 22rpx;
+}
+
+.pill.orange {
+  color: #b86c28;
+  background: #fff3e4;
+}
+
+.pill.gray {
+  color: #6f7a76;
+  background: #eef2f0;
+}
+
+.order-line {
+  margin-top: 16rpx;
+  color: #65716d;
+  font-size: 24rpx;
+  line-height: 1.65;
+}
+
+.order-footer {
+  margin-top: 22rpx;
+  color: #7f8a86;
+  font-size: 24rpx;
+}
+
+.order-amount {
+  color: #31a381;
+  font-size: 30rpx;
+  font-weight: 800;
+}
+
+.order-btn {
+  margin-top: 22rpx;
+}

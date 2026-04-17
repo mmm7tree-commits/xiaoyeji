@@ -1,0 +1,92 @@
+.address-page {
+  padding-bottom: 72rpx;
+}
+
+.card .ghost-btn {
+  width: 176rpx;
+  min-height: 72rpx;
+}
+
+.address-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.address-item {
+  position: relative;
+}
+
+.address-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.address-name {
+  color: #2e2823;
+  font-size: 30rpx;
+  font-weight: 800;
+}
+
+.address-detail {
+  margin-top: 12rpx;
+  color: #65716d;
+  font-size: 24rpx;
+  line-height: 1.62;
+}
+
+.default-pill {
+  margin-top: 20rpx;
+}
+
+.address-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  color: #2e2823;
+  font-size: 28rpx;
+  background: #f7faf8;
+  border-radius: 24rpx;
+}
+
+.input {
+  height: 88rpx;
+  padding: 0 24rpx;
+  line-height: 88rpx;
+}
+
+.picker-text {
+  color: #65716d;
+}
+
+.textarea {
+  min-height: 154rpx;
+  padding: 22rpx 24rpx;
+  line-height: 1.6;
+}
+
+.default-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24rpx;
+}
+
+.default-title {
+  color: #2e2823;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.default-copy {
+  margin-top: 8rpx;
+  color: #7f8a86;
+  font-size: 22rpx;
+  line-height: 1.6;
+}

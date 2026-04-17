@@ -1,0 +1,23 @@
+#!/bin/sh
+set -eu
+
+NODE_PATH="$(command -v node)"
+if [ -z "${NODE_PATH}" ]; then
+  echo "node 未安装，无法执行 pnpm" >&2
+  exit 1
+fi
+
+NODE_REAL_PATH="$(node -p 'process.execPath')"
+COREPACK_BIN="$(dirname "${NODE_REAL_PATH}")/corepack"
+
+if [ -x "${COREPACK_BIN}" ]; then
+  exec "${COREPACK_BIN}" pnpm "$@"
+fi
+
+COREPACK_FALLBACK="$(dirname "${NODE_REAL_PATH}")/../lib/node_modules/corepack/dist/corepack.js"
+if [ -f "${COREPACK_FALLBACK}" ]; then
+  exec node "${COREPACK_FALLBACK}" pnpm "$@"
+fi
+
+echo "未找到可用的 corepack / pnpm 入口，请先安装 pnpm。" >&2
+exit 1

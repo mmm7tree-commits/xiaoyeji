@@ -1,0 +1,15 @@
+<svg width="420" height="120" viewBox="0 0 420 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="8" y="12" width="96" height="96" rx="30" fill="#EEF6FF"/>
+  <ellipse cx="44" cy="38" rx="14" ry="10" fill="#FFFFFF"/>
+  <ellipse cx="60" cy="34" rx="16" ry="12" fill="#FFFFFF"/>
+  <ellipse cx="76" cy="38" rx="14" ry="10" fill="#FFFFFF"/>
+  <rect x="30" y="39" width="58" height="11" rx="5.5" fill="#FFFFFF"/>
+  <rect x="34" y="58" width="44" height="24" rx="12" fill="#FFFFFF"/>
+  <path d="M56 50V63" stroke="#74C86A" stroke-width="4" stroke-linecap="round"/>
+  <path d="M56 64C49 64 44 69 44 76V82H68V76C68 69 63 64 56 64Z" fill="#74C86A"/>
+  <path d="M53 55C47.5 54 44 51 42 46" stroke="#74C86A" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M59 55C64.5 54 68 51 70 46" stroke="#74C86A" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="78" cy="72" r="7" fill="#FFA9C4"/>
+  <text x="130" y="56" fill="#3D4A37" font-size="34" font-weight="700" font-family="'SF Pro Rounded','PingFang SC','Hiragino Sans GB',sans-serif">小页记</text>
+  <text x="130" y="84" fill="#78856F" font-size="16" font-weight="600" font-family="'SF Pro Rounded','PingFang SC','Hiragino Sans GB',sans-serif">云朵绘本风幼儿园纪念册</text>
+</svg>

@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>小页记 LOGO 方案</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --paper: #f6fcf2;
+        --card: rgba(255, 253, 247, 0.96);
+        --ink: #394334;
+        --muted: #74806f;
+        --brand: #5bb55d;
+        --accent: #e67a48;
+        --line: rgba(103, 150, 95, 0.16);
+        --shadow: 0 18px 40px rgba(111, 153, 93, 0.12);
+        --sans: "SF Pro Rounded", "Hiragino Sans GB", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--sans);
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 8% 10%, rgba(255, 223, 124, 0.26), transparent 18rem),
+          radial-gradient(circle at 88% 14%, rgba(146, 214, 152, 0.18), transparent 18rem),
+          linear-gradient(180deg, #f8fcf4 0%, #eef8e7 55%, #fff8ef 100%);
+      }
+
+      .shell {
+        width: min(100%, 980px);
+        margin: 0 auto;
+        padding: 20px 14px 48px;
+      }
+
+      .hero {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+        padding: 20px;
+      }
+
+      .hero h1 {
+        margin: 10px 0 0;
+        font-size: clamp(28px, 5vw, 40px);
+        line-height: 1.16;
+      }
+
+      .hero p {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.75;
+      }
+
+      .tag-row,
+      .card-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .tag,
+      .card-tag {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 34px;
+        padding: 0 12px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .tag {
+        margin-top: 14px;
+        background: #eef9e8;
+        color: var(--brand);
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+
+      .hero-actions a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0 18px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .primary-link {
+        background: linear-gradient(180deg, #84cf72, #5bb55d);
+        color: #fffef9;
+      }
+
+      .secondary-link {
+        background: rgba(255, 253, 247, 0.96);
+        border: 1px solid var(--line);
+        color: #617058;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 14px;
+        margin-top: 16px;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        box-shadow: var(--shadow);
+        padding: 16px;
+      }
+
+      .preview {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 140px;
+        padding: 16px;
+        border-radius: 18px;
+        background:
+          radial-gradient(circle at 85% 12%, rgba(255, 226, 141, 0.18), transparent 8rem),
+          linear-gradient(180deg, #fffef9, #f8fdf5);
+      }
+
+      .card h2 {
+        margin: 14px 0 0;
+        font-size: 18px;
+        line-height: 1.3;
+      }
+
+      .card p {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .card-tags {
+        margin-top: 12px;
+      }
+
+      .card-tag {
+        background: #fff1e4;
+        color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div class="tag-row">
+          <span class="tag">10 个候选方案</span>
+          <span class="tag">幼儿园主题</span>
+          <span class="tag">可直接替换首页</span>
+        </div>
+        <h1>小页记 LOGO 方案集</h1>
+        <p>这 10 套 LOGO 都按“幼儿园纪念册”方向重做了，重点往小花、小草、云朵、太阳、贴贴和春游感去靠。首页当前默认接的是 01 号方案，如果你选中别的，我可以直接替换到主页面。</p>
+        <div class="hero-actions">
+          <a class="primary-link" href="./index.html">查看主页面</a>
+          <a class="secondary-link" href="./index.html#home">回到小页记首页</a>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <div class="preview"><img src="../assets/logo/xiaoyeji-logo-option-01.svg" alt="小页记 LOGO 方案 01" /></div>
+          <h2>方案 01 · 花朵书页</h2>
+          <p>花朵和翻开的书页结合，最像“把孩子的笑脸做成一本会开花的小书”。现在首页默认用的就是这套。</p>
+          <div class="card-tags"><span class="card-tag">推荐默认</span><span class="card-tag">小花主题</span></div>
+        </article>
+
+        <article class="card">
+          <div class="preview"><img src="../assets/logo/xiaoyeji-logo-option-02.svg" alt="小页记 LOGO 方案 02" /></div>
+          <h2>方案 02 · 叶片书签</h2>
+          <p>更清新、自然，适合偏成长记录和草地绘本感的页面风格，识别度安静一点。</p>
+          <div class="card-tags"><span class="card-tag">清新自然</span><span class="card-tag">成长册</span></div>
+        </article>
+
+        <article class="card">
+          <div class="preview"><img src="../assets/logo/xiaoyeji-logo-option-03.svg" alt="小页记 LOGO 方案 03" /></div>
+          <h2>方案 03 · 小太阳书页</h2>
+          <p>把毕业礼和舞台感放得更前，适合毕业册首页和更有仪式感的视觉方向。</p>
+          <div class="card-tags"><span class="card-tag">毕业礼</span><span class="card-tag">明亮感</span></div>
+        </article>
+
+        <article class="card">
+          <div class="preview"><img src="../assets/logo/xiaoyeji-logo-option-04.svg" alt="小页记 LOGO 方案 04" /></div>
+          <h2>方案 04 · 云朵小芽</h2>
+          <p>更像幼儿园绘本和成长记录册，气质最柔软，适合温和、陪伴感更强的首页。</p>
+          <div class="card-tags"><span class="card-tag">绘本风</span><span class="card-tag">温柔感</span></div>
+        </article>
+
+        <article class="card">
+          <div class="preview"><img src="../assets/logo/xiaoyeji-logo-option-05.svg" alt="小页记 LOGO 方案 05" /></div>
+          <h2>方案 05 · 蜡笔拼贴</h2>
+          <p>更像孩子的涂鸦和贴贴手账，适合班级活动多、页面更热闹的模板体系。</p>
+          <div class="card-tags"><span class="card-tag">手工感</span><span class="card-tag">活泼感</span></div>
+        </article>
+
+        <article class="card">
+          <div class="preview"><img src="../assets/logo/xiaoyeji-logo-option-06.svg" alt="小页记 LOGO 方案 06" /></div>
+          <h2>方案 06 · 彩虹小书</h2>
+          <p>彩虹弧线更像活动页和成长册，整体更轻快，适合希望画面更明亮的方向。</p>
+          <div class="card-tags"><span class="card-tag">彩虹感</span><span class="card-tag">轻快</span></div>
+        </article>
+
+        <article class="card">
+          <div class="preview"><img src="../assets/logo/xiaoyeji-logo-option-07.svg" alt="小页记 LOGO 方案 07" /></div>
+          <h2>方案 07 · 花章徽记</h2>
+          <p>更像班级章徽和纪念章，适合想要“毕业纪念册”气质更完整、更有成品感的方向。</p>
+          <div class="card-tags"><span class="card-tag">纪念章</span><span class="card-tag">班级册</span></div>
+        </article>
+
+        <article class="card">
+          <div class="preview"><img src="../assets/logo/xiaoyeji-logo-option-08.svg" alt="小页记 LOGO 方案 08" /></div>
+          <h2>方案 08 · 春游风筝</h2>
+          <p>更偏春游和活动记录，适合页面想要一点外出活动、放风和童趣自由感。</p>
+          <div class="card-tags"><span class="card-tag">春游感</span><span class="card-tag">轻松</span></div>
+        </article>
+
+        <article class="card">
+          <div class="preview"><img src="../assets/logo/xiaoyeji-logo-option-09.svg" alt="小页记 LOGO 方案 09" /></div>
+          <h2>方案 09 · 笑脸花朵</h2>
+          <p>童趣最直接，适合希望产品更偏小朋友视角、看起来更软萌更有亲和力的版本。</p>
+          <div class="card-tags"><span class="card-tag">亲和力强</span><span class="card-tag">更童趣</span></div>
+        </article>
+
+        <article class="card">
+          <div class="preview"><img src="../assets/logo/xiaoyeji-logo-option-10.svg" alt="小页记 LOGO 方案 10" /></div>
+          <h2>方案 10 · 草地拱门</h2>
+          <p>把毕业拱门、小书和草地放进一个标记里，适合毕业礼和班级毕业册的主视觉。</p>
+          <div class="card-tags"><span class="card-tag">毕业主视觉</span><span class="card-tag">仪式感</span></div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

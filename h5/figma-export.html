@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>小页记 Figma Export</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+    <style>
+      body {
+        min-height: 100vh;
+        margin: 0;
+        background: #f1f1f1;
+      }
+
+      .export-board {
+        display: flex;
+        gap: 56px;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 56px;
+      }
+
+      .export-col {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .export-label {
+        padding-left: 8px;
+        font: 600 14px/1.4 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #8b8b8b;
+      }
+
+      .export-screen {
+        position: relative;
+        width: 390px;
+        height: 844px;
+        overflow: hidden;
+        border-radius: 34px;
+        background: linear-gradient(180deg, #f7fcf3 0%, #eef8e8 46%, #fff9ef 100%);
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.08);
+      }
+
+      .export-screen::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(circle at 8% 10%, rgba(255, 223, 124, 0.26), transparent 18rem),
+          radial-gradient(circle at 88% 16%, rgba(146, 214, 152, 0.2), transparent 18rem),
+          radial-gradient(circle at 80% 76%, rgba(255, 194, 219, 0.16), transparent 14rem),
+          radial-gradient(circle at 18% 74%, rgba(173, 222, 255, 0.12), transparent 16rem);
+      }
+
+      .screen-inner {
+        position: relative;
+        z-index: 1;
+        min-height: 100%;
+        padding: 20px 16px 106px;
+      }
+
+      .export-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .export-logo-box {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        background: #f19a63;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .export-logo-box::before {
+        content: "";
+        width: 15px;
+        height: 15px;
+        border-radius: 999px;
+        background: #fffef8;
+      }
+
+      .export-brand-name {
+        font: 700 24px/1.2 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #394334;
+      }
+
+      .export-card {
+        margin-top: 14px;
+        padding: 16px;
+        border-radius: 24px;
+        border: 1px solid rgba(101, 145, 93, 0.14);
+        background: #fffdf8;
+        box-shadow: 0 18px 42px rgba(111, 153, 93, 0.12);
+      }
+
+      .export-card.compact {
+        padding: 14px;
+      }
+
+      .export-kicker {
+        font: 700 14px/1.4 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #e67a48;
+      }
+
+      .export-title {
+        margin-top: 8px;
+        font: 700 18px/1.34 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #394334;
+      }
+
+      .export-desc {
+        margin-top: 8px;
+        font: 500 14px/1.6 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #74806f;
+      }
+
+      .export-chip-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+
+      .export-chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 34px;
+        padding: 0 14px;
+        border-radius: 999px;
+        background: #eef9e8;
+        color: #5bb55d;
+        font: 700 13px/1 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      .export-chip.subtle {
+        background: #f2f7ef;
+        color: #65715e;
+      }
+
+      .featured-row {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        margin-top: 14px;
+        padding: 12px;
+        border-radius: 22px;
+        border: 1px solid rgba(120, 190, 112, 0.18);
+        background: linear-gradient(180deg, #fffef9, #f8fdf5);
+      }
+
+      .album-thumb {
+        width: 82px;
+        height: 118px;
+        border-radius: 22px;
+        border: 1px solid #e3edd8;
+        background: #fffdf8;
+        padding: 10px;
+        box-shadow: 0 10px 24px rgba(111, 153, 93, 0.1);
+        overflow: hidden;
+      }
+
+      .album-thumb .thumb-chip {
+        width: fit-content;
+        max-width: 100%;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: #ddefd0;
+        color: #5a7153;
+        font: 700 11px/1.2 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      .album-thumb .thumb-title {
+        margin-top: 10px;
+        font: 700 12px/1.25 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #394334;
+      }
+
+      .album-thumb .thumb-photo {
+        width: 100%;
+        height: 44px;
+        margin-top: 10px;
+        border-radius: 14px;
+        object-fit: cover;
+      }
+
+      .album-thumb .thumb-meta {
+        margin-top: 8px;
+        font: 500 10px/1.3 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #74806f;
+      }
+
+      .featured-copy {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .featured-copy .export-title {
+        margin-top: 4px;
+        font-size: 17px;
+      }
+
+      .featured-copy .export-desc {
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .export-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 44px;
+        padding: 0 22px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #87d274, #5bb55d);
+        color: #fffef8;
+        font: 700 16px/1 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      .export-button.secondary {
+        background: #fffef9;
+        border: 1px solid rgba(115, 168, 102, 0.24);
+        color: #607057;
+      }
+
+      .template-list {
+        margin-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .template-item {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        padding: 12px;
+        border-radius: 20px;
+        border: 1px solid rgba(120, 190, 112, 0.18);
+        background: linear-gradient(180deg, #fffef9, #fafdf6);
+      }
+
+      .template-copy {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .template-copy .price {
+        font: 700 15px/1 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #e67a48;
+      }
+
+      .template-copy .export-title {
+        margin-top: 0;
+        font-size: 16px;
+      }
+
+      .template-copy .export-desc {
+        margin-top: 6px;
+        font-size: 13px;
+      }
+
+      .template-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-top: 10px;
+      }
+
+      .template-actions .export-button {
+        height: 40px;
+        padding: 0 18px;
+        font-size: 14px;
+      }
+
+      .bottom-bar-export {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+        display: flex;
+        gap: 12px;
+        padding: 8px;
+        border-radius: 999px;
+        background: rgba(255, 253, 248, 0.96);
+        border: 1px solid rgba(115, 168, 102, 0.18);
+        box-shadow: 0 12px 28px rgba(111, 153, 93, 0.12);
+      }
+
+      .bottom-bar-export .export-button,
+      .bottom-bar-export .export-button.secondary {
+        flex: 1;
+        height: 50px;
+      }
+
+      .template-summary-card {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+
+      .template-summary-card .album-thumb {
+        width: 86px;
+        height: 124px;
+      }
+
+      .template-summary-card .export-button {
+        margin-top: 12px;
+      }
+
+      .input-block {
+        margin-top: 12px;
+      }
+
+      .field-label-export {
+        font: 700 13px/1.4 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #5a7153;
+      }
+
+      .field-export {
+        height: 42px;
+        margin-top: 8px;
+        padding: 0 14px;
+        border-radius: 16px;
+        background: #ffffff;
+        border: 1px solid rgba(115, 168, 102, 0.16);
+        color: #394334;
+        display: flex;
+        align-items: center;
+        font: 500 14px/1 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      .preview-card-shell {
+        display: flex;
+        justify-content: center;
+        margin-top: 14px;
+      }
+
+      .preview-album {
+        width: 238px;
+        height: 324px;
+        border-radius: 28px;
+        border: 1px solid #e3edd8;
+        background: linear-gradient(180deg, #fffef9 0%, #f4fbec 100%);
+        padding: 16px;
+        box-shadow: 0 18px 36px rgba(111, 153, 93, 0.12);
+      }
+
+      .preview-album .thumb-chip {
+        width: fit-content;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: #ddefd0;
+        color: #5a7153;
+        font: 700 13px/1 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      .preview-album .preview-title {
+        margin-top: 16px;
+        font: 700 18px/1.25 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #394334;
+      }
+
+      .preview-album .preview-desc {
+        margin-top: 8px;
+        font: 500 14px/1.5 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #74806f;
+      }
+
+      .preview-album img {
+        width: 100%;
+        height: 164px;
+        margin-top: 14px;
+        border-radius: 24px;
+        object-fit: cover;
+      }
+
+      .preview-meta {
+        margin-top: 12px;
+        font: 500 14px/1.4 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #74806f;
+      }
+
+      .slide-row-export {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .slide-row-export .export-button,
+      .slide-row-export .export-button.secondary {
+        height: 42px;
+        padding: 0 20px;
+        font-size: 14px;
+      }
+
+      .slide-indicator-export {
+        color: #5a7153;
+        font: 700 16px/1 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      .list-card-export {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .list-row-export {
+        padding: 0;
+      }
+
+      .list-row-export + .list-row-export {
+        margin-top: 0;
+        padding-top: 18px;
+        border-top: 1px solid rgba(101, 145, 93, 0.14);
+      }
+
+      .list-title-export {
+        font: 700 16px/1.3 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #394334;
+      }
+
+      .list-desc-export {
+        margin-top: 6px;
+        font: 500 13px/1.6 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #74806f;
+      }
+
+      .logout-export {
+        margin-top: 14px;
+        width: 100%;
+        height: 46px;
+        border-radius: 999px;
+        background: rgba(255, 253, 248, 0.96);
+        border: 1px solid rgba(115, 168, 102, 0.18);
+        color: #74806f;
+        font: 700 16px/1 "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+    <script>
+      (function () {
+        function getCaptureParams() {
+          const hash = String(window.location.hash || "");
+          if (hash.indexOf("figmacapture=") === -1) return null;
+          const search = new URLSearchParams(hash.replace(/^#/, ""));
+          const captureId = search.get("figmacapture");
+          const endpoint = search.get("figmaendpoint");
+          const selector = search.get("figmaselector") || "body";
+          const delay = Number(search.get("figmadelay") || "1200");
+          if (!captureId || !endpoint) return null;
+          return { captureId, endpoint, selector, delay };
+        }
+
+        function submitCapture(params) {
+          if (!window.figma || typeof window.figma.captureForDesign !== "function") {
+            window.setTimeout(function () {
+              submitCapture(params);
+            }, 250);
+            return;
+          }
+
+          window.figma.captureForDesign({
+            captureId: params.captureId,
+            endpoint: params.endpoint,
+            selector: params.selector
+          }).catch(function () {});
+        }
+
+        const params = getCaptureParams();
+        if (!params) return;
+        window.addEventListener("load", function () {
+          window.setTimeout(function () {
+            submitCapture(params);
+          }, params.delay);
+        }, { once: true });
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="export-board">
+      <div class="export-col">
+        <div class="export-label">首页</div>
+        <section class="export-screen">
+          <div class="screen-inner">
+            <div class="export-brand">
+              <div class="export-logo-box"></div>
+              <div class="export-brand-name">小页记</div>
+            </div>
+
+            <div class="export-card">
+              <div class="export-title">把幼儿园的笑脸，做成一本会开花的小纪念册</div>
+              <div class="export-desc">毕业礼、春游活动、老师寄语和班级合影，都可以先排一版看看，满意后再继续做。</div>
+              <div class="export-kicker" style="margin-top: 14px;">推荐模板</div>
+              <div class="export-desc" style="margin-top: 6px;">不知道先选哪套？先试这套，最容易看出幼儿园纪念册的整体感觉。</div>
+
+              <div class="featured-row">
+                <div class="album-thumb">
+                  <div class="thumb-chip">花园毕业册</div>
+                  <div class="thumb-title">小一班毕业啦</div>
+                  <img class="thumb-photo" src="../assets/h5-template-covers/little-garden-cover.jpg" alt="" />
+                  <div class="thumb-meta">向日葵幼儿园</div>
+                </div>
+                <div class="featured-copy">
+                  <div class="export-kicker">推荐起步款</div>
+                  <div class="export-title">小花园毕业册</div>
+                  <div class="export-desc">老师寄语、毕业礼和孩子单人笑脸都会多放一点。</div>
+                  <div style="margin-top: 12px;">
+                    <span class="export-button">从这套开始</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="export-card">
+              <div class="export-kicker">全部模板</div>
+              <div class="export-title">选一套适合孩子的纪念册风格</div>
+              <div class="export-desc">点进任意模板，就能直接上传照片，先看一版排好的成册效果。</div>
+              <div class="export-chip-row">
+                <span class="export-chip">全部</span>
+                <span class="export-chip subtle">毕业纪念</span>
+                <span class="export-chip subtle">成长记录</span>
+                <span class="export-chip subtle">班级活动</span>
+              </div>
+
+              <div class="template-list">
+                <div class="template-item">
+                  <div class="album-thumb" style="width: 68px; height: 98px;">
+                    <div class="thumb-chip">花园</div>
+                    <div class="thumb-title">小一班</div>
+                    <img class="thumb-photo" src="../assets/h5-template-covers/little-garden-cover.jpg" alt="" />
+                  </div>
+                  <div class="template-copy">
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                      <div class="export-title">小花园毕业册</div>
+                      <div class="price">¥129</div>
+                    </div>
+                    <div class="export-desc">适合老师寄语、毕业礼和单人笑脸。</div>
+                    <div class="template-actions">
+                      <span class="export-button">立即做一本</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="template-item">
+                  <div class="album-thumb" style="width: 68px; height: 98px;">
+                    <div class="thumb-chip">绘本</div>
+                    <div class="thumb-title">云朵成长</div>
+                    <img class="thumb-photo" src="../assets/h5-template-covers/cloud-growth-cover.jpg" alt="" />
+                  </div>
+                  <div class="template-copy">
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                      <div class="export-title">云朵成长册</div>
+                      <div class="price">¥119</div>
+                    </div>
+                    <div class="export-desc">更像一本绘本，适合春游和日常成长。</div>
+                    <div class="template-actions">
+                      <span class="export-button secondary">先看效果</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bottom-bar-export">
+              <span class="export-button secondary">我的</span>
+              <span class="export-button">开始排一本</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="export-col">
+        <div class="export-label">制作台</div>
+        <section class="export-screen">
+          <div class="screen-inner">
+            <div class="export-card compact">
+              <div class="template-summary-card">
+                <div class="album-thumb" style="width: 84px; height: 122px;">
+                  <div class="thumb-chip">花园毕业册</div>
+                  <div class="thumb-title">小一班毕业啦</div>
+                  <img class="thumb-photo" src="../assets/h5-template-covers/little-garden-cover.jpg" alt="" />
+                </div>
+                <div style="flex: 1; min-width: 0;">
+                  <div class="export-kicker">当前模板</div>
+                  <div class="export-title">小花园毕业册</div>
+                  <div class="export-desc">这套会按“花边留白”的方式排版，老师寄语、笑脸页和班级瞬间都会留得更温柔。</div>
+                  <span class="export-button secondary">回到模板区</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="export-card">
+              <div class="export-kicker">第一步</div>
+              <div class="export-title">先上传孩子要放进册子的照片</div>
+              <div class="export-desc">建议先放毕业礼、全班合影、老师合照和几个日常笑脸。</div>
+              <div style="display: flex; gap: 8px; margin-top: 12px; align-items: center;">
+                <img src="../assets/h5-template-previews/little-garden-preview-1.jpg" alt="" style="width: 52px; height: 52px; border-radius: 16px; object-fit: cover;" />
+                <img src="../assets/h5-template-previews/little-garden-preview-2.jpg" alt="" style="width: 52px; height: 52px; border-radius: 16px; object-fit: cover;" />
+                <img src="../assets/h5-template-previews/little-garden-preview-3.jpg" alt="" style="width: 52px; height: 52px; border-radius: 16px; object-fit: cover;" />
+                <span class="export-button" style="margin-left: auto;">上传照片</span>
+              </div>
+            </div>
+
+            <div class="export-card">
+              <div class="export-kicker">第二步</div>
+              <div class="export-title">补充封面和班级信息</div>
+              <div class="input-block">
+                <div class="field-label-export">封面标题</div>
+                <div class="field-export">小一班毕业啦</div>
+              </div>
+              <div class="input-block">
+                <div class="field-label-export">幼儿园 / 班级</div>
+                <div class="field-export">向日葵幼儿园 · 小一班</div>
+              </div>
+              <div class="input-block">
+                <div class="field-label-export">你更喜欢哪种感觉</div>
+                <div class="export-chip-row" style="margin-top: 8px;">
+                  <span class="export-chip">温柔一点</span>
+                  <span class="export-chip subtle">热闹一点</span>
+                  <span class="export-chip subtle">像本故事</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="export-card">
+              <div class="export-kicker">第三步</div>
+              <div class="export-title">先看一下排版好的效果</div>
+              <div class="export-desc">当前会生成一版可以翻看的预览，先看看封面和几页内页是不是你想要的感觉。</div>
+              <div class="preview-card-shell">
+                <div class="album-thumb" style="width: 92px; height: 132px;">
+                  <div class="thumb-chip">花园毕业册</div>
+                  <div class="thumb-title">小一班毕业啦</div>
+                  <img class="thumb-photo" src="../assets/h5-template-covers/little-garden-cover.jpg" alt="" />
+                  <div class="thumb-meta">向日葵幼儿园</div>
+                </div>
+              </div>
+              <div style="margin-top: 14px;">
+                <span class="export-button" style="width: 100%; justify-content: center;">查看完整预览</span>
+              </div>
+            </div>
+
+            <div class="bottom-bar-export">
+              <span class="export-button secondary">回到模板区</span>
+              <span class="export-button">查看预览</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="export-col">
+        <div class="export-label">预览页</div>
+        <section class="export-screen">
+          <div class="screen-inner">
+            <div class="export-card compact" style="padding: 14px 16px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+                <div>
+                  <div class="export-title" style="margin-top: 0;">查看效果</div>
+                  <div class="export-desc" style="margin-top: 4px;">左右翻看，先看封面，再看老师寄语和班级内页。</div>
+                </div>
+                <span class="export-button secondary">返回编辑</span>
+              </div>
+            </div>
+
+            <div class="export-card">
+              <div class="export-kicker">整本预览</div>
+              <div class="export-title">这本成长册大概会长这样</div>
+              <div class="export-chip-row">
+                <span class="export-chip">老师寄语</span>
+                <span class="export-chip subtle">毕业礼</span>
+                <span class="export-chip subtle">班级笑脸</span>
+              </div>
+
+              <div class="preview-card-shell">
+                <div class="preview-album">
+                  <div class="thumb-chip">花园毕业册</div>
+                  <div class="preview-title">小一班毕业啦</div>
+                  <div class="preview-desc">把最后一个夏天的笑脸留在这里</div>
+                  <img src="../assets/h5-template-covers/little-garden-cover.jpg" alt="" />
+                  <div class="preview-meta">向日葵幼儿园 · 小一班</div>
+                </div>
+              </div>
+
+              <div class="slide-row-export">
+                <span class="export-button secondary">上一页</span>
+                <span class="slide-indicator-export">1 / 8</span>
+                <span class="export-button">下一页</span>
+              </div>
+            </div>
+
+            <div class="export-card">
+              <div class="export-kicker">换个模板</div>
+              <div class="export-title">同一批照片，也可以换套风格再看</div>
+              <div class="export-desc">不用重传照片，点一下就能切到小花风、绘本风或贴贴风。</div>
+              <div style="display: flex; gap: 10px; margin-top: 12px;">
+                <div class="album-thumb" style="width: 72px; height: 104px;">
+                  <div class="thumb-chip">绘本</div>
+                  <div class="thumb-title">云朵</div>
+                  <img class="thumb-photo" src="../assets/h5-template-covers/cloud-growth-cover.jpg" alt="" />
+                </div>
+                <div class="album-thumb" style="width: 72px; height: 104px;">
+                  <div class="thumb-chip">贴贴</div>
+                  <div class="thumb-title">游戏</div>
+                  <img class="thumb-photo" src="../assets/h5-template-covers/sticker-play-cover.jpg" alt="" />
+                </div>
+                <div class="album-thumb" style="width: 72px; height: 104px;">
+                  <div class="thumb-chip">春游</div>
+                  <div class="thumb-title">故事</div>
+                  <img class="thumb-photo" src="../assets/h5-template-covers/storybook-trip-cover.jpg" alt="" />
+                </div>
+              </div>
+            </div>
+
+            <div class="bottom-bar-export">
+              <span class="export-button secondary">发给家人看看</span>
+              <span class="export-button">这套可以，继续下单</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="export-col">
+        <div class="export-label">我的页</div>
+        <section class="export-screen">
+          <div class="screen-inner">
+            <div class="export-card" style="padding: 18px;">
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <div style="width: 58px; height: 58px; border-radius: 999px; background: #eef9e8;"></div>
+                <div style="min-width: 0;">
+                  <div class="export-title" style="margin-top: 0;">王妈妈</div>
+                  <div class="export-desc" style="margin-top: 4px;">向日葵幼儿园 · 小一班 家长账号</div>
+                </div>
+              </div>
+              <div class="export-desc" style="margin-top: 16px;">已做 3 本 · 待确认 1 本 · 已下单 2 本</div>
+            </div>
+
+            <div class="export-card">
+              <div class="export-title" style="margin-top: 0;">我的订单</div>
+              <div class="export-chip-row">
+                <span class="export-chip">待支付</span>
+                <span class="export-chip subtle" style="background: #fff0e4; color: #e67a48;">制作中</span>
+                <span class="export-chip subtle">待发货</span>
+                <span class="export-chip subtle">已完成</span>
+              </div>
+            </div>
+
+            <div class="export-card list-card-export">
+              <div class="list-row-export">
+                <div class="list-title-export">我的作品</div>
+                <div class="list-desc-export">做好的成长册、待确认的草稿，都可以回来继续看。</div>
+              </div>
+              <div class="list-row-export">
+                <div class="list-title-export">我的地址</div>
+                <div class="list-desc-export">默认地址会在下单时自动带出，也支持新增多条地址。</div>
+              </div>
+              <div class="list-row-export">
+                <div class="list-title-export">联系我们</div>
+                <div class="list-desc-export">客服时间 9:00 - 18:00，支持咨询模板和订单。</div>
+              </div>
+            </div>
+
+            <div class="export-card">
+              <div class="export-title" style="margin-top: 0;">关于小页记</div>
+              <div class="export-desc">专注幼儿园成长纪念册，帮家长把毕业礼、班级活动和日常小瞬间留成一本小书。</div>
+              <div class="export-desc">上传照片后，系统会自动完成智能排版，快速生成更适合孩子和班级氛围的纪念册页面。</div>
+            </div>
+
+            <div class="logout-export">退出登录</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>

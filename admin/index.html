@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>小页记后台管理</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <div class="admin-layout">
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <div>
+            <div class="sidebar-caption">小页记</div>
+            <div class="sidebar-title">管理后台</div>
+          </div>
+          <button class="sidebar-close" type="button" aria-label="关闭">×</button>
+        </div>
+
+        <nav class="sidebar-nav">
+          <button class="sidebar-link" type="button" data-section="summary">
+            <span class="sidebar-icon">⌘</span>
+            <span>数据概括</span>
+          </button>
+          <button class="sidebar-link" type="button" data-section="works">
+            <span class="sidebar-icon">◔</span>
+            <span>用户管理</span>
+          </button>
+          <button class="sidebar-link" type="button" data-section="templates">
+            <span class="sidebar-icon">▣</span>
+            <span>模板管理</span>
+          </button>
+          <button class="sidebar-link" type="button" data-section="orders">
+            <span class="sidebar-icon">◫</span>
+            <span>订单管理</span>
+          </button>
+        </nav>
+      </aside>
+
+      <main class="admin-main">
+        <header class="page-header">
+          <div class="page-copy">
+            <div class="page-kicker" id="page-kicker">交易侧</div>
+            <h1 class="page-title" id="page-title">订单管理</h1>
+            <p class="page-desc" id="page-desc">查看订单、处理发货、维护物流和下载打印文件。</p>
+          </div>
+
+          <div class="page-actions">
+            <label class="toolbar-select">
+              <span>时间范围</span>
+              <select id="top-period-select">
+                <option value="day">最近一天</option>
+                <option value="week">最近一周</option>
+                <option value="month">最近一月</option>
+              </select>
+            </label>
+            <a class="toolbar-button ghost" href="/h5/index.html" target="_blank" rel="noreferrer">查看前台</a>
+            <button class="toolbar-button" id="refresh-button" type="button">刷新数据</button>
+          </div>
+        </header>
+
+        <section class="content-panel hidden" data-section-panel="summary">
+          <div class="section-block">
+            <div class="section-header">
+              <div>
+                <div class="section-kicker">经营看板</div>
+                <h2 class="section-title">核心数据概况</h2>
+              </div>
+            </div>
+            <div class="summary-grid" id="summary-grid"></div>
+          </div>
+        </section>
+
+        <section class="content-panel hidden" data-section-panel="works">
+          <div class="section-block">
+            <div class="toolbar-row">
+              <label class="search-field">
+                <span class="search-icon">⌕</span>
+                <input id="work-search-input" type="search" placeholder="搜索作品标题、模板或班级..." />
+              </label>
+              <div class="toolbar-group">
+                <select id="work-template-filter"></select>
+                <select id="work-status-filter">
+                  <option value="all">全部状态</option>
+                  <option value="draft">草稿中</option>
+                  <option value="generated">待确认</option>
+                  <option value="ordered">已下单</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="section-header with-divider">
+              <div>
+                <div class="section-kicker">用户侧</div>
+                <h2 class="section-title">作品列表 <span class="section-count" id="work-count">0</span></h2>
+              </div>
+            </div>
+
+            <div class="table-card">
+              <div class="table-head works-grid">
+                <div>作品</div>
+                <div>模板与页数</div>
+                <div>状态</div>
+                <div>最近更新</div>
+              </div>
+              <div class="table-body" id="work-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="content-panel hidden" data-section-panel="templates">
+          <div class="template-layout">
+            <section class="section-block editor-panel">
+              <div class="section-header">
+                <div>
+                  <div class="section-kicker">模板编辑</div>
+                  <h2 class="section-title">维护模板信息</h2>
+                </div>
+                <button class="toolbar-button ghost" id="template-new-button" type="button">新建模板</button>
+              </div>
+
+              <form class="template-form" id="template-form">
+                <input id="template-id" type="hidden" />
+                <label>
+                  模板名称
+                  <input id="template-title" required />
+                </label>
+                <label>
+                  分类
+                  <select id="template-category">
+                    <option value="graduation">毕业纪念</option>
+                    <option value="growth">成长记录</option>
+                    <option value="class">班级活动</option>
+                  </select>
+                </label>
+                <label>
+                  状态
+                  <select id="template-status">
+                    <option value="online">上架中</option>
+                    <option value="draft">草稿</option>
+                    <option value="archived">已归档</option>
+                  </select>
+                </label>
+                <label>
+                  价格
+                  <input id="template-price" type="number" min="0" required />
+                </label>
+                <label>
+                  默认页数
+                  <input id="template-pages" type="number" min="16" max="32" step="4" required />
+                </label>
+                <label>
+                  适用照片数
+                  <input id="template-range" placeholder="例如 8-40张" />
+                </label>
+                <label class="span-2">
+                  封面图地址
+                  <input id="template-cover-image" placeholder="/assets/h5-template-covers/little-garden-cover.jpg" />
+                </label>
+                <label class="span-2">
+                  模板短描述
+                  <textarea id="template-note" rows="3"></textarea>
+                </label>
+                <label class="span-2">
+                  推荐文案
+                  <textarea id="template-featured" rows="3"></textarea>
+                </label>
+                <div class="form-actions span-2">
+                  <button class="toolbar-button primary" type="submit">保存模板</button>
+                  <div class="helper-text" id="template-form-tip">保存后，前台 H5 刷新即可同步看到新信息。</div>
+                </div>
+              </form>
+            </section>
+
+            <section class="section-block">
+              <div class="section-header with-divider">
+                <div>
+                  <div class="section-kicker">模板列表</div>
+                  <h2 class="section-title">已维护模板</h2>
+                </div>
+              </div>
+              <div class="template-admin-list" id="template-admin-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="content-panel" data-section-panel="orders">
+          <div class="section-block">
+            <div class="toolbar-row">
+              <label class="search-field">
+                <span class="search-icon">⌕</span>
+                <input id="order-search-input" type="search" placeholder="搜索订单号或用户名..." />
+              </label>
+              <div class="toolbar-group">
+                <select id="order-template-filter"></select>
+                <select id="order-status-filter">
+                  <option value="all">全部状态</option>
+                  <option value="pending_payment">待支付</option>
+                  <option value="awaiting_ship">待发货</option>
+                  <option value="shipped">已发货</option>
+                </select>
+                <button class="toolbar-button ghost" id="order-batch-print-button" type="button">下载当前打印文件</button>
+              </div>
+            </div>
+
+            <div class="section-header with-divider">
+              <div>
+                <div class="section-kicker">交易侧</div>
+                <h2 class="section-title">订单列表 <span class="section-count" id="order-count">0</span></h2>
+              </div>
+            </div>
+
+            <div class="table-card">
+              <div class="table-head orders-grid">
+                <div>作品</div>
+                <div>订单信息</div>
+                <div>用户信息</div>
+                <div>金额</div>
+                <div>订单状态</div>
+                <div>PDF状态</div>
+                <div>操作</div>
+              </div>
+              <div class="table-body" id="order-admin-list"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <div class="toast" id="toast"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>小页记 | 模版库预览</title>
+    <meta
+      name="description"
+      content="小页记模板库单页预览页，用来查看外部模板筛出的单页版式、规格信息和归一化结果。"
+    />
+    <link rel="stylesheet" href="./template-preview.css" />
+    <script src="../data/externalTemplates.js"></script>
+    <script src="./template-preview.js" defer></script>
+  </head>
+  <body>
+    <div class="preview-bg" aria-hidden="true"></div>
+
+    <main class="preview-app">
+      <section class="hero-shell">
+        <div class="hero-copy">
+          <div class="hero-kicker">
+            <span class="hero-pill">模板库预览</span>
+            <span class="hero-pill hero-pill--soft">模版 1</span>
+          </div>
+          <h1 class="hero-title" id="hero-title">外部模板预览</h1>
+          <p class="hero-desc" id="hero-desc">正在加载模板信息…</p>
+
+          <div class="hero-meta" id="hero-meta"></div>
+
+          <div class="hero-actions">
+            <a class="ghost-link" href="./index.html">返回 H5 首页</a>
+            <a class="primary-link" id="source-link" href="#" target="_blank" rel="noreferrer">查看原始模板</a>
+          </div>
+        </div>
+
+        <div class="hero-cover-card">
+          <div class="cover-frame">
+            <img id="cover-image" alt="模板封面预览" />
+          </div>
+          <div class="cover-caption" id="cover-caption"></div>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <div class="main-column">
+          <article class="panel gallery-panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-kicker">单页预览</div>
+                <h2 class="panel-title">只看可进入模板库的单页排版</h2>
+              </div>
+              <div class="panel-status" id="gallery-status"></div>
+            </div>
+
+            <div class="gallery-stage" id="gallery-stage">
+              <img id="gallery-image" alt="模板演示页" />
+            </div>
+
+            <div class="gallery-toolbar">
+              <button class="toolbar-btn" id="gallery-prev" type="button">上一张</button>
+              <div class="toolbar-copy" id="gallery-caption"></div>
+              <button class="toolbar-btn toolbar-btn--primary" id="gallery-next" type="button">下一张</button>
+            </div>
+
+            <div class="thumb-row" id="thumb-row"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-kicker">单页结构</div>
+                <h2 class="panel-title">我们已经整理出的单页版式骨架</h2>
+              </div>
+            </div>
+            <div class="pattern-list" id="pattern-list"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-kicker">元素清单</div>
+                <h2 class="panel-title">已确认单页元素和待精拆元素</h2>
+              </div>
+            </div>
+
+            <div class="inventory-grid">
+              <div class="inventory-card">
+                <div class="inventory-title">已确认</div>
+                <div class="tag-cloud" id="confirmed-tags"></div>
+              </div>
+              <div class="inventory-card">
+                <div class="inventory-title">待继续精拆</div>
+                <div class="tag-cloud tag-cloud--soft" id="inferred-tags"></div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <aside class="side-column">
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-kicker">规格信息</div>
+                <h2 class="panel-title">这个模板的商品层参数</h2>
+              </div>
+            </div>
+            <div class="spec-list" id="spec-list"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-kicker">归一化色板</div>
+                <h2 class="panel-title">本地模板库可复用的颜色锚点</h2>
+              </div>
+            </div>
+            <div class="palette-list" id="palette-list"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-kicker">导入建议</div>
+                <h2 class="panel-title">进入自有模板库时怎么落</h2>
+              </div>
+            </div>
+            <div class="import-card">
+              <div class="import-label">建议本地 ID</div>
+              <div class="import-id" id="import-id"></div>
+              <div class="import-rule" id="import-rule"></div>
+            </div>
+            <div class="note-list" id="note-list"></div>
+          </article>
+        </aside>
+      </section>
+    </main>
+  </body>
+</html>

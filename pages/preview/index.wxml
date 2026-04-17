@@ -1,0 +1,150 @@
+<template name="paperPage">
+  <view class="page-stage" style="{{pageFrameStyle}}">
+    <view class="page-shadow back {{page.sheetClassName}}" style="{{pageFrameStyle}}"></view>
+    <view class="page-shadow middle {{page.sheetClassName}}" style="{{pageFrameStyle}}"></view>
+    <view class="paper-sheet {{page.sheetClassName}}" style="{{pageFrameStyle}}">
+      <view class="sheet-top">
+        <text class="sheet-page-no">{{page.pageLabel}}</text>
+        <text class="sheet-type">{{page.layoutTypeText}}</text>
+      </view>
+      <view class="sheet-title">{{page.title}}</view>
+      <view class="sheet-subtitle">{{page.subtitle}}</view>
+
+      <view wx:if="{{page.type == 'cover'}}" class="page-layout cover-layout">
+        <image wx:if="{{page.firstPhoto.path}}" class="cover-photo" src="{{page.firstPhoto.path}}" mode="aspectFill" lazy-load="true"></image>
+        <view wx:else class="photo-placeholder cover-placeholder">照片位</view>
+        <view class="cover-badge">{{page.caption}}</view>
+      </view>
+
+      <view wx:elif="{{page.type == 'hero'}}" class="page-layout hero-layout">
+        <image wx:if="{{page.firstPhoto.path}}" class="hero-photo" src="{{page.firstPhoto.path}}" mode="aspectFill" lazy-load="true"></image>
+        <view wx:else class="photo-placeholder hero-placeholder">照片位</view>
+        <view class="sheet-caption">{{page.caption}}</view>
+      </view>
+
+      <view wx:elif="{{page.type == 'single'}}" class="page-layout single-layout">
+        <image wx:if="{{page.firstPhoto.path}}" class="single-photo" src="{{page.firstPhoto.path}}" mode="aspectFill" lazy-load="true"></image>
+        <view wx:else class="photo-placeholder single-placeholder">照片位</view>
+        <view class="sheet-caption">{{page.caption}}</view>
+      </view>
+
+      <view wx:elif="{{page.type == 'duo'}}" class="page-layout duo-layout">
+        <view wx:for="{{page.duoPhotos}}" wx:key="id" class="duo-cell">
+          <image wx:if="{{item.path}}" class="duo-photo" src="{{item.path}}" mode="aspectFill" lazy-load="true"></image>
+          <view wx:else class="photo-placeholder duo-placeholder">照片位</view>
+        </view>
+        <view class="sheet-caption">{{page.caption}}</view>
+      </view>
+
+      <view wx:elif="{{page.type == 'mosaic'}}" class="page-layout mosaic-layout">
+        <view wx:for="{{page.mosaicPhotos}}" wx:key="id" class="mosaic-cell">
+          <image wx:if="{{item.path}}" class="mosaic-photo" src="{{item.path}}" mode="aspectFill" lazy-load="true"></image>
+          <view wx:else class="photo-placeholder small-placeholder">照片位</view>
+        </view>
+      </view>
+
+      <view wx:elif="{{page.type == 'grid'}}" class="page-layout grid-layout">
+        <view wx:for="{{page.gridPhotos}}" wx:key="id" class="grid-cell">
+          <image wx:if="{{item.path}}" class="grid-photo" src="{{item.path}}" mode="aspectFill" lazy-load="true"></image>
+          <view wx:else class="photo-placeholder small-placeholder">照片位</view>
+        </view>
+      </view>
+
+      <view wx:elif="{{page.type == 'timeline'}}" class="page-layout timeline-layout">
+        <view wx:for="{{page.timelineRows}}" wx:key="id" class="timeline-row">
+          <view class="timeline-dot"></view>
+          <view class="timeline-photo-shell">
+            <image wx:if="{{item.photo.path}}" class="timeline-photo" src="{{item.photo.path}}" mode="aspectFill" lazy-load="true"></image>
+            <view wx:else class="photo-placeholder timeline-placeholder">照片位</view>
+          </view>
+          <view class="timeline-copy">{{item.label}}</view>
+        </view>
+      </view>
+
+      <view wx:elif="{{page.type == 'quote'}}" class="page-layout quote-layout">
+        <view class="quote-card">{{page.caption}}</view>
+        <image wx:if="{{page.firstPhoto.path}}" class="quote-photo" src="{{page.firstPhoto.path}}" mode="aspectFill" lazy-load="true"></image>
+        <view wx:else class="photo-placeholder quote-placeholder">照片位</view>
+      </view>
+
+      <view wx:else class="page-layout letter-layout">
+        <view class="letter-copy">{{page.caption}}</view>
+        <image wx:if="{{page.firstPhoto.path}}" class="letter-photo" src="{{page.firstPhoto.path}}" mode="aspectFill" lazy-load="true"></image>
+        <view wx:else class="photo-placeholder letter-placeholder">照片位</view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<view class="page-shell preview-page" wx:if="{{work}}">
+  <view class="preview-head card">
+    <view class="preview-copy">
+      <view class="pill green">{{previewModeLabel}}</view>
+      <view class="preview-title">{{work.title}}</view>
+      <view class="preview-meta">{{previewMetaText}}</view>
+      <view class="preview-layout">{{layoutText}}</view>
+    </view>
+    <view class="preview-price">{{priceText}}</view>
+  </view>
+
+  <view class="preview-note soft-card">
+    {{frameHintText}}。{{previewNoteText}}。
+  </view>
+
+  <view class="section page-preview-section">
+    <view class="section-head">
+      <view>
+        <view class="section-title">{{pageSectionTitle}}</view>
+        <view class="section-subtitle">{{pageSectionSubtitle}}</view>
+      </view>
+    </view>
+
+    <view class="mobile-stage card" style="{{stageStyle}}">
+      <swiper
+        class="page-flip-swiper"
+        current="{{currentPageIndex}}"
+        bindchange="onPageChange"
+        circular="false"
+        duration="260"
+        style="{{stageStyle}}"
+      >
+        <swiper-item wx:for="{{pages}}" wx:key="id">
+          <view class="page-shell-inner">
+            <template is="paperPage" data="{{ page: item, pageFrameStyle: pageFrameStyle }}"></template>
+          </view>
+        </swiper-item>
+      </swiper>
+    </view>
+
+    <view class="flip-toolbar card">
+      <view class="flip-status">
+        <view class="flip-index">{{pageProgressText}}</view>
+        <view class="flip-label">{{currentPageIndicator}}</view>
+      </view>
+      <view class="flip-actions">
+        <button class="ghost-btn flip-btn" disabled="{{prevDisabled}}" bindtap="goPrevPage">上一页</button>
+        <button class="primary-btn flip-btn" disabled="{{nextDisabled}}" bindtap="goNextPage">下一页</button>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{templatePages.length}}" class="section template-reference">
+    <view class="section-head">
+      <view>
+        <view class="section-title">模板原始效果参考</view>
+        <view class="section-subtitle">方便对照模板风格与自动排版后的成书效果</view>
+      </view>
+    </view>
+    <scroll-view class="reference-scroll" scroll-x="true" enable-flex="true">
+      <view wx:for="{{templatePages}}" wx:key="id" class="reference-card">
+        <image class="reference-image" src="{{item.image}}" mode="aspectFill" lazy-load="true"></image>
+        <view class="reference-label">{{item.label}}</view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="bottom-actions">
+    <button class="secondary-btn" bindtap="backWorks">{{bottomSecondaryText}}</button>
+    <button class="primary-btn" bindtap="orderNow">{{bottomPrimaryText}}</button>
+  </view>
+</view>

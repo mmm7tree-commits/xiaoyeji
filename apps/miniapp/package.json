@@ -1,0 +1,11 @@
+{
+  "name": "@xiaoyeji/miniapp",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "dev:weixin": "echo 'Milestone 0 保留根目录微信小程序 demo 作为当前开发入口，apps/miniapp 仅完成 uni-app 目标目录初始化。'",
+    "dev:douyin": "echo 'Milestone 0 暂不启动抖音小程序工程，后续里程碑在 apps/miniapp 内补齐。'",
+    "dev:xhs": "echo 'Milestone 0 暂不启动小红书小程序工程，后续里程碑在 apps/miniapp 内补齐。'"
+  }
+}

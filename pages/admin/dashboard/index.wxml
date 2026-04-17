@@ -1,0 +1,95 @@
+<view class="admin-page">
+  <view class="admin-hero">
+    <view class="pill">运营后台</view>
+    <view class="admin-title">小页记数据看板</view>
+    <view class="admin-subtitle">当前为小程序内 mock 管理页，便于一期流程联调。</view>
+  </view>
+
+  <view class="period-tabs">
+    <button
+      wx:for="{{periods}}"
+      wx:key="key"
+      class="period-tab {{item.activeClass}}"
+      data-key="{{item.key}}"
+      bindtap="switchPeriod"
+    >
+      {{item.label}}
+    </button>
+  </view>
+
+  <view class="summary-grid">
+    <view wx:for="{{summaryCards}}" wx:key="label" class="summary-card">
+      <text class="summary-value">{{item.value}}</text>
+      <text class="summary-label">{{item.label}}</text>
+    </view>
+  </view>
+
+  <view class="admin-section">
+    <view class="between admin-section-head">
+      <view>
+        <view class="admin-section-title">模板管理</view>
+        <view class="admin-section-subtitle">维护模板名称、图片、描述和价格</view>
+      </view>
+    </view>
+    <view wx:for="{{templates}}" wx:key="id" class="admin-card template-admin-card">
+      <image wx:if="{{item.coverImage}}" class="template-thumb" src="{{item.coverImage}}" mode="aspectFill" lazy-load="true"></image>
+      <view wx:else class="template-color" style="background: linear-gradient(135deg, {{item.coverTone}}, {{item.accentTone}});"></view>
+      <view class="admin-card-main">
+        <view class="admin-card-title">{{item.name}}</view>
+        <view class="admin-card-text">{{item.scene}} · {{item.pageCount}} 页 · {{item.priceText}}</view>
+        <view class="admin-card-text">{{item.layoutLabel}} · 建议 {{item.recommendedPhotoCount}}</view>
+        <view class="admin-card-text">来源：{{item.sourceName}}</view>
+        <view class="admin-card-text">{{item.description}}</view>
+      </view>
+      <button class="admin-link" data-name="{{item.name}}" bindtap="editTemplate">维护</button>
+    </view>
+  </view>
+
+  <view class="admin-section">
+    <view class="between admin-section-head">
+      <view>
+        <view class="admin-section-title">作品集管理</view>
+        <view class="admin-section-subtitle">支持按生成时间、模板类型查看用户作品内容</view>
+      </view>
+      <picker mode="selector" range="{{templateOptions}}" range-key="name" value="{{activeWorkTemplateIndex}}" bindchange="switchWorkTemplate">
+        <view class="admin-filter">{{activeWorkTemplateName}}</view>
+      </picker>
+    </view>
+    <view wx:if="{{visibleWorks.length}}" class="admin-list">
+      <view wx:for="{{visibleWorks}}" wx:key="id" class="admin-card">
+        <view class="admin-card-main">
+          <view class="admin-card-title">{{item.title}}</view>
+          <view class="admin-card-text">{{item.createdText}} · {{item.templateName}} · {{item.photoCountText}}</view>
+        </view>
+        <view class="admin-status">{{item.status}}</view>
+      </view>
+    </view>
+    <view wx:else class="admin-empty">暂无作品，用户生成后会显示在这里。</view>
+  </view>
+
+  <view class="admin-section">
+    <view class="between admin-section-head">
+      <view>
+        <view class="admin-section-title">订单管理</view>
+        <view class="admin-section-subtitle">支持按下单时间、模板类型查看并下载打印 PDF</view>
+      </view>
+      <view class="admin-tools">
+        <picker mode="selector" range="{{templateOptions}}" range-key="name" value="{{activeOrderTemplateIndex}}" bindchange="switchOrderTemplate">
+          <view class="admin-filter">{{activeOrderTemplateName}}</view>
+        </picker>
+        <button class="admin-batch" bindtap="batchDownloadPdf">批量下载</button>
+      </view>
+    </view>
+    <view wx:if="{{visibleOrders.length}}" class="admin-list">
+      <view wx:for="{{visibleOrders}}" wx:key="id" class="admin-card order-admin-card">
+        <view class="admin-card-main">
+          <view class="admin-card-title">{{item.orderNo}}</view>
+          <view class="admin-card-text">{{item.createdText}} · {{item.templateName}} · {{item.amountText}}</view>
+          <view class="admin-card-text">{{item.status}} · {{item.logisticsStatus}}</view>
+        </view>
+        <button class="admin-link" data-order="{{item.orderNo}}" bindtap="downloadPdf">PDF</button>
+      </view>
+    </view>
+    <view wx:else class="admin-empty">暂无订单，下单后可在这里管理打印文件。</view>
+  </view>
+</view>

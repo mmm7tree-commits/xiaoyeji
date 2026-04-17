@@ -1,0 +1,13 @@
+<svg width="420" height="120" viewBox="0 0 420 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="8" y="12" width="96" height="96" rx="26" fill="#FFF6E4"/>
+  <path d="M34 77V32C34 28.6863 36.6863 26 40 26H72C74.7614 26 77 28.2386 77 31V73C77 75.7614 74.7614 78 72 78H42C37.5817 78 34 74.4183 34 70V70" fill="#FFFFFF"/>
+  <path d="M42 35H69" stroke="#F39B67" stroke-width="4" stroke-linecap="round"/>
+  <path d="M42 46H65" stroke="#F39B67" stroke-width="4" stroke-linecap="round"/>
+  <path d="M42 57H61" stroke="#F39B67" stroke-width="4" stroke-linecap="round"/>
+  <path d="M76 32C82 37 85 44 85 53C85 64 79 72 66 78C66 66 68 54 72 43C73.5 39.2 74.9 35.5333 76 32Z" fill="#75C768"/>
+  <path d="M76 32C73 41 69 47.5 62 56" stroke="#4E9F57" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="28" cy="87" r="5" fill="#8FD986"/>
+  <circle cx="42" cy="91" r="4" fill="#FFD96F"/>
+  <text x="130" y="55" fill="#3F4A38" font-size="34" font-weight="700" font-family="'SF Pro Rounded','PingFang SC','Hiragino Sans GB',sans-serif">小页记</text>
+  <text x="130" y="84" fill="#79866F" font-size="16" font-weight="600" font-family="'SF Pro Rounded','PingFang SC','Hiragino Sans GB',sans-serif">把孩子的小日子装进小书里</text>
+</svg>

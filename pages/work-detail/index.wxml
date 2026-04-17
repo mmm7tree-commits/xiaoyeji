@@ -1,0 +1,77 @@
+<view class="page-shell work-detail-page">
+  <block wx:if="{{loading}}">
+    <view class="card detail-card">
+      <view class="section-title">正在打开这本作品</view>
+      <view class="section-subtitle">马上就能继续查看这次保存下来的内容。</view>
+    </view>
+  </block>
+
+  <block wx:elif="{{loadFailed}}">
+    <view class="empty-state">
+      <view class="empty-title">作品暂时没有打开成功</view>
+      <view class="empty-text">{{errorText}}</view>
+      <button class="primary-btn" bindtap="backWorks">回到作品列表</button>
+    </view>
+  </block>
+
+  <block wx:else>
+    <view class="detail-stack">
+      <view class="card detail-card">
+        <view class="detail-status-row">
+          <view class="pill green">{{work.statusText}}</view>
+          <view class="detail-time">保存于 {{work.updatedText}}</view>
+        </view>
+        <view class="detail-cover" style="background: linear-gradient(135deg, {{work.coverTone}}, {{work.accentTone}});">
+          <image wx:if="{{work.coverPhoto}}" class="detail-cover-image" src="{{work.coverPhoto}}" mode="aspectFill" lazy-load="true"></image>
+        </view>
+        <view class="detail-title">{{work.title}}</view>
+        <view class="detail-subtitle">{{work.templateName}} · {{work.scene}}</view>
+        <view class="detail-copy">{{work.statusHintText}}</view>
+      </view>
+
+      <view class="card detail-card">
+        <view class="section-title">封面信息</view>
+        <view class="info-list">
+          <view class="info-row">
+            <view class="info-label">封面标题</view>
+            <view class="info-value">{{work.coverTitle}}</view>
+          </view>
+          <view class="info-row">
+            <view class="info-label">幼儿园 / 宝宝信息</view>
+            <view class="info-value">{{work.babyInfo || "暂未填写"}}</view>
+          </view>
+          <view class="info-row">
+            <view class="info-label">封面短语</view>
+            <view class="info-value">{{work.coverPhrase || "暂未填写"}}</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="card detail-card">
+        <view class="section-title">作品概况</view>
+        <view class="detail-meta-row">
+          <view class="detail-meta-card soft-card">
+            <view class="detail-meta-label">已保存照片</view>
+            <view class="detail-meta-value">{{work.photoCountText}}</view>
+          </view>
+          <view class="detail-meta-card soft-card">
+            <view class="detail-meta-label">已生成页面</view>
+            <view class="detail-meta-value">{{work.generatedPageCountText}}</view>
+          </view>
+        </view>
+        <view class="rule-note soft-card">
+          <view class="rule-text">{{work.suggestedRuleText}}</view>
+          <view class="rule-text">{{work.saveRuleText}}</view>
+        </view>
+      </view>
+
+      <view class="card detail-card">
+        <view class="section-title">继续查看</view>
+        <view class="section-subtitle">可以继续回看这本作品的完整翻页效果，也可以从这里进入确认订单页。</view>
+        <button class="primary-btn detail-btn" bindtap="openPreview">查看完整预览</button>
+        <button wx:if="{{work.statusCode === 'ready'}}" class="secondary-btn detail-btn" bindtap="openOrder">去确认订单</button>
+        <button class="ghost-btn detail-btn" bindtap="backWorks">回到作品列表</button>
+      </view>
+    </view>
+  </block>
+</view>

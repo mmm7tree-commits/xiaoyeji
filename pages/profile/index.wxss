@@ -1,0 +1,137 @@
+.profile-page {
+  padding-bottom: 72rpx;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 22rpx;
+}
+
+.avatar {
+  flex: 0 0 116rpx;
+  width: 116rpx;
+  height: 116rpx;
+  border-radius: 42rpx;
+  background: #e8f7f0;
+}
+
+.avatar.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 52rpx;
+  font-weight: 800;
+  background: linear-gradient(135deg, #4dc085, #31a381);
+}
+
+.profile-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-name {
+  color: #2e2823;
+  font-size: 36rpx;
+  font-weight: 800;
+}
+
+.profile-text {
+  margin-top: 10rpx;
+  color: #7f8a86;
+  font-size: 24rpx;
+  line-height: 1.55;
+}
+
+.login-btn {
+  width: 182rpx;
+  min-height: 72rpx;
+  font-size: 24rpx;
+}
+
+.status-grid {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 18rpx;
+}
+
+.status-card {
+  flex: 1;
+  text-align: center;
+}
+
+.status-count,
+.status-label,
+.status-hint {
+  display: block;
+}
+
+.status-count {
+  color: #31a381;
+  font-size: 44rpx;
+  font-weight: 800;
+}
+
+.status-label {
+  margin-top: 8rpx;
+  color: #2e2823;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+.status-hint {
+  margin-top: 6rpx;
+  color: #7f8a86;
+  font-size: 20rpx;
+  line-height: 1.5;
+}
+
+.login-state-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+}
+
+.login-state-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.login-state-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.menu-item {
+  min-height: 116rpx;
+  border-bottom: 2rpx solid rgba(229, 235, 231, 0.92);
+}
+
+.menu-item:first-of-type {
+  margin-top: 18rpx;
+}
+
+.menu-item:last-child {
+  border-bottom: 0;
+}
+
+.menu-title {
+  color: #2e2823;
+  font-size: 30rpx;
+  font-weight: 800;
+}
+
+.menu-text {
+  margin-top: 8rpx;
+  color: #7f8a86;
+  font-size: 24rpx;
+  line-height: 1.55;
+}
+
+.menu-arrow {
+  color: #4dc085;
+  font-size: 48rpx;
+}

@@ -1,0 +1,12 @@
+<svg width="420" height="120" viewBox="0 0 420 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="8" y="12" width="96" height="96" rx="28" fill="#FFF1E7"/>
+  <rect x="30" y="30" width="20" height="50" rx="10" fill="#7BC86A"/>
+  <rect x="48" y="24" width="20" height="56" rx="10" fill="#FFD968"/>
+  <rect x="66" y="34" width="20" height="46" rx="10" fill="#FFA5BF"/>
+  <path d="M42 80C42 64.536 54.536 52 70 52" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="30" cy="88" r="6" fill="#74C86A"/>
+  <circle cx="47" cy="90" r="5" fill="#FFD968"/>
+  <circle cx="63" cy="88" r="6" fill="#FFA5BF"/>
+  <text x="130" y="56" fill="#3D4A37" font-size="34" font-weight="700" font-family="'SF Pro Rounded','PingFang SC','Hiragino Sans GB',sans-serif">小页记</text>
+  <text x="130" y="84" fill="#78856F" font-size="16" font-weight="600" font-family="'SF Pro Rounded','PingFang SC','Hiragino Sans GB',sans-serif">像蜡笔画一样热闹的班级册</text>
+</svg>

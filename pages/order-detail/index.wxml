@@ -1,0 +1,123 @@
+<view class="page-shell order-detail-page">
+  <block wx:if="{{loading}}">
+    <view class="card detail-card">
+      <view class="section-title">正在打开订单</view>
+      <view class="section-subtitle">马上就能看到这次确认下来的下单信息。</view>
+    </view>
+  </block>
+
+  <block wx:elif="{{loadFailed}}">
+    <view class="empty-state">
+      <view class="empty-title">订单暂时没有打开成功</view>
+      <view class="empty-text">{{errorText}}</view>
+      <button class="primary-btn" bindtap="goBack">回到我的页</button>
+    </view>
+  </block>
+
+  <block wx:else>
+    <view class="detail-stack">
+      <view class="card detail-card">
+        <view class="detail-status-row">
+          <view class="pill {{order.statusClass}}">{{order.statusText}}</view>
+          <view class="detail-time">创建于 {{order.createdText}}</view>
+        </view>
+        <view class="detail-title">{{order.workTitle}}</view>
+        <view class="detail-subtitle">{{order.orderNo}}</view>
+        <view class="detail-copy">{{order.statusNote}}</view>
+      </view>
+
+      <view class="card detail-card">
+        <view class="section-title">下单信息</view>
+        <view class="info-list">
+          <view class="info-row">
+            <view class="info-label">作品快照</view>
+            <view class="info-value">{{order.workMetaText}}</view>
+          </view>
+          <view class="info-row">
+            <view class="info-label">购买数量</view>
+            <view class="info-value">{{order.quantityText}}</view>
+          </view>
+          <view class="info-row">
+            <view class="info-label">单本价格</view>
+            <view class="info-value">{{order.unitPriceText}}</view>
+          </view>
+          <view class="info-row">
+            <view class="info-label">订单金额</view>
+            <view class="info-value amount-value">{{order.amountText}}</view>
+          </view>
+          <view class="info-row">
+            <view class="info-label">订单备注</view>
+            <view class="info-value">{{order.remark || "暂无备注"}}</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="card detail-card">
+        <view class="section-title">收货地址快照</view>
+        <view class="address-box soft-card">{{order.addressText}}</view>
+      </view>
+
+      <view class="card detail-card">
+        <view class="section-title">当前进度</view>
+        <view class="rule-note soft-card">
+          <view class="rule-title">{{order.statusPromptTitle}}</view>
+          <view class="rule-text">{{order.statusPromptText}}</view>
+        </view>
+      </view>
+
+      <view class="card detail-card">
+        <view class="section-title">后续准备情况</view>
+        <view class="rule-note soft-card">
+          <view class="rule-title">{{order.productionReadiness.label}}</view>
+          <view class="rule-text">{{order.productionReadiness.description}}</view>
+        </view>
+        <view class="readiness-list">
+          <view wx:for="{{order.readinessChecks}}" wx:key="code" class="readiness-item soft-card">
+            <view class="readiness-top">
+              <view class="readiness-label">{{item.label}}</view>
+              <view class="pill {{item.statusClass}}">{{item.statusText}}</view>
+            </view>
+            <view class="readiness-text">{{item.displayText}}</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="card detail-card">
+        <view class="section-title">后续动作预留</view>
+        <view class="action-grid">
+          <block wx:for="{{order.placeholderActions}}" wx:key="key">
+            <button
+              wx:if="{{item.canTap}}"
+              class="{{item.blocked ? 'ghost-btn' : 'primary-btn'}} detail-btn placeholder-btn"
+              bindtap="handlePayAction"
+            >
+              {{item.label}}
+            </button>
+            <button
+              wx:else
+              class="{{item.blocked ? 'ghost-btn' : 'primary-btn'}} detail-btn placeholder-btn"
+              disabled
+            >
+              {{item.label}}
+            </button>
+          </block>
+        </view>
+        <view wx:for="{{order.placeholderActions}}" wx:key="key" class="action-note soft-card">
+          <view class="action-note-top">
+            <view class="action-note-title">{{item.label}}</view>
+            <view class="pill {{item.blocked ? 'gray' : 'green'}}">{{item.blocked ? "当前拦截" : "当前可点"}}</view>
+          </view>
+          <view class="action-note-text">{{item.hint}}</view>
+          <view class="action-note-meta">依赖：{{item.requiredChecksText || "暂无"}}</view>
+        </view>
+        <view wx:if="{{actionFeedback}}" class="action-feedback {{actionFeedback.type}}">
+          <view class="action-feedback-title">{{actionFeedback.title}}</view>
+          <view class="action-feedback-text">{{actionFeedback.message}}</view>
+        </view>
+        <button class="primary-btn detail-btn" bindtap="openWorkPreview">回看作品预览</button>
+        <button wx:if="{{order.canClose}}" class="ghost-btn danger-btn detail-btn" bindtap="closeOrder">关闭订单</button>
+        <button class="ghost-btn detail-btn" bindtap="goBack">回到我的页</button>
+      </view>
+    </view>
+  </block>
+</view>

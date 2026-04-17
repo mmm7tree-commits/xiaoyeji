@@ -1,0 +1,123 @@
+<view class="page-shell home-page">
+  <view class="hero card">
+    <view class="hero-top">
+      <image class="hero-logo" src="../../assets/logo/exported-png/xiaoyeji-logo-home-200.png" mode="aspectFit"></image>
+      <view class="hero-brand-copy">
+        <view class="hero-brand">小页记</view>
+        <view class="hero-brand-subtitle">幼儿园成长纪念册</view>
+      </view>
+    </view>
+
+    <view class="hero-copy">
+      <view class="hero-title">把幼儿园的笑脸，做成一本会开花的小纪念册</view>
+      <view class="hero-text">毕业礼、春游活动、老师寄语和班级合影，都可以先排一版看看，满意后再继续做。</view>
+      <view class="hero-tags">
+        <text class="pill green">先看效果</text>
+        <text class="pill green">老师寄语</text>
+        <text class="pill green">发给家人看</text>
+      </view>
+    </view>
+
+    <block wx:if="{{!loading && !loadFailed}}">
+      <view class="section-head hero-section-head">
+        <view>
+          <view class="section-kicker">推荐模板</view>
+          <view class="section-subtitle">不知道先选哪套？先试这套，最容易看出幼儿园纪念册的整体感觉。</view>
+        </view>
+      </view>
+
+      <view class="featured-template">
+        <view class="featured-focus">
+          <view class="featured-visual">
+            <view class="featured-cover-shell">
+              <image wx:if="{{featuredTemplate.coverImage}}" class="featured-cover" src="{{featuredTemplate.coverImage}}" mode="aspectFill" lazy-load="true"></image>
+              <view wx:else class="featured-cover-placeholder"></view>
+            </view>
+            <view class="featured-visual-badge">{{featuredTemplate.badgeText}}</view>
+          </view>
+
+          <view class="featured-body">
+            <view class="featured-kicker">推荐起步款</view>
+            <view class="featured-title">{{featuredTemplate.name}}</view>
+            <view class="featured-text">{{featuredTemplate.summary}}</view>
+            <view class="featured-meta">
+              <text class="pill">{{featuredTemplate.photoSuggestionText}}</text>
+              <text class="pill">{{featuredTemplate.themeLabel}}</text>
+              <text class="pill">{{featuredTemplate.categoryName}}</text>
+            </view>
+            <button class="primary-btn featured-btn" bindtap="openFeaturedTemplate">从这套开始</button>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <block wx:if="{{loading}}">
+    <view class="section card loading-card">
+      <view class="section-title">正在摆好这些模板</view>
+      <view class="section-subtitle">稍等一下，先把首页想看的几套准备好。</view>
+    </view>
+  </block>
+
+  <block wx:elif="{{loadFailed}}">
+    <view class="section empty-state">
+      <view class="empty-title">这会儿还没把模板带出来</view>
+      <view class="empty-text">{{errorText}}</view>
+      <button class="primary-btn retry-btn" bindtap="retryLoad">再试一次</button>
+    </view>
+  </block>
+
+  <block wx:else>
+    <view class="section template-section section-card card">
+      <view class="section-head section-card-head">
+        <view>
+          <view class="section-kicker">全部模板</view>
+          <view class="section-title">选一套适合孩子的纪念册风格</view>
+          <view class="section-subtitle">点进任意模板，就能直接上传照片，先看一版排好的成册效果。</view>
+        </view>
+      </view>
+
+      <scroll-view class="category-scroll" scroll-x="true" enable-flex="true">
+        <view
+          wx:for="{{categories}}"
+          wx:key="code"
+          class="category-chip {{item.activeClass}}"
+          data-code="{{item.code}}"
+          bindtap="switchCategory"
+        >
+          <view class="category-name">{{item.name}}</view>
+        </view>
+      </scroll-view>
+
+      <view class="template-list">
+        <view wx:for="{{templates}}" wx:key="id" class="template-list-card card" data-id="{{item.id}}" bindtap="openTemplateDetail">
+          <image class="template-list-cover" src="{{item.coverImage}}" mode="aspectFill" lazy-load="true"></image>
+          <view class="template-list-body">
+            <view class="template-list-main">
+              <view class="template-list-top">
+                <view class="template-list-title">{{item.name}}</view>
+                <view class="template-list-price">{{item.priceText}}</view>
+              </view>
+              <view class="template-list-summary text-clamp-2">{{item.summary}}</view>
+            </view>
+
+            <view class="template-list-footer">
+              <view class="template-list-tags">
+                <text class="pill">{{item.photoSuggestionText}}</text>
+                <text class="pill">{{item.themeLabel}}</text>
+              </view>
+              <view class="template-list-action {{item.selectedClass}}">{{item.selectedText}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="bottom-entry-bar">
+      <view class="entry-action-row">
+        <button class="ghost-btn entry-secondary-btn" bindtap="goProfile">我的</button>
+        <button class="primary-btn entry-primary-btn" bindtap="openFeaturedTemplate">开始排一本</button>
+      </view>
+    </view>
+  </block>
+</view>

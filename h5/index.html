@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>小页记 | 幼儿园成长纪念册 H5</title>
+    <meta
+      name="description"
+      content="小页记 H5 移动端原型，沿用青页记小程序的页面结构与交互链路，替换为更适合幼儿园纪念册的主题、按钮、配色和模板。"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-bg" aria-hidden="true"></div>
+
+    <main class="app-shell">
+      <section class="view" id="home-view">
+        <div class="page-shell">
+          <div class="hero-card">
+            <div class="hero-top">
+              <img class="brand-logo" src="../assets/logo/xiaoyeji-logo-h5.svg" alt="小页记" />
+            </div>
+
+            <div class="hero-title">把幼儿园的笑脸，做成一本会开花的小纪念册</div>
+            <div class="hero-desc">毕业礼、春游活动、老师寄语和班级合影，都可以先排一版看看，满意后再继续做。</div>
+
+            <div class="hero-tags" id="hero-tags"></div>
+
+            <div class="section-head">
+              <div class="section-kicker">推荐模板</div>
+              <div class="section-desc">不知道先选哪套？先试这套，最容易看出幼儿园纪念册的整体感觉。</div>
+            </div>
+
+            <button class="featured-card" id="featured-card" type="button"></button>
+          </div>
+
+          <div class="section-card">
+            <div class="section-head">
+              <div class="section-kicker">全部模板</div>
+              <div class="section-title">选一套适合孩子的纪念册风格</div>
+              <div class="section-desc">点进任意模板，就能直接上传照片，先看一版排好的成册效果。</div>
+            </div>
+
+            <div class="chip-scroll">
+              <div class="chip-row" id="template-filter-row"></div>
+            </div>
+
+            <div class="template-list" id="template-list"></div>
+            <div class="thumb-empty hidden" id="template-empty">这一类暂时还没有模板，换个分类看看。</div>
+          </div>
+
+          <div class="bottom-bar">
+            <button class="bottom-secondary" id="home-go-profile" type="button">我的</button>
+            <button class="bottom-primary" id="home-go-studio" type="button">开始排一本</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="view hidden" id="studio-view">
+        <div class="page-shell studio-page">
+          <div class="top-card">
+            <div class="template-summary">
+              <div class="template-summary-image" id="studio-template-image" aria-label="当前模板效果图"></div>
+              <div class="template-summary-copy">
+                <div class="section-kicker">当前模板</div>
+                <div class="section-title" id="studio-template-title"></div>
+                <div class="section-desc" id="studio-template-desc"></div>
+                <div class="summary-meta" id="studio-template-meta"></div>
+              </div>
+            </div>
+
+            <button class="secondary-button block-button" id="studio-back-home" type="button">回到模板区</button>
+          </div>
+
+          <div class="section-card">
+            <div class="section-kicker">第一步</div>
+            <div class="section-title">先上传孩子要放进册子的照片</div>
+            <div class="section-desc" id="upload-meta"></div>
+            <div class="action-row">
+              <button class="primary-button" id="choose-photos-button" type="button">上传照片</button>
+              <button class="secondary-button" id="clear-photos-button" type="button">清空照片</button>
+            </div>
+
+            <div class="thumb-scroll">
+              <div class="thumb-row" id="photo-strip"></div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-kicker">第二步</div>
+            <div class="section-title">补充封面和班级信息</div>
+
+            <label class="field-label" for="cover-title">封面标题</label>
+            <input class="field-input" id="cover-title" placeholder="例如：小一班毕业啦" />
+
+            <label class="field-label field-gap" for="cover-class">幼儿园 / 班级</label>
+            <input class="field-input" id="cover-class" placeholder="例如：向日葵幼儿园 · 小一班" />
+
+            <label class="field-label field-gap" for="cover-subtitle">封面短句</label>
+            <input class="field-input" id="cover-subtitle" placeholder="例如：把最后一个夏天的笑脸留在这里" />
+
+            <div class="field-label field-gap">想做成多丰富</div>
+            <div class="pill-row" id="page-options-row"></div>
+
+            <div class="field-label field-gap">你更喜欢哪种感觉</div>
+            <div class="pill-row" id="style-options-row"></div>
+
+            <label class="field-label field-gap" for="chapter-text">章节标题</label>
+            <textarea
+              class="field-textarea"
+              id="chapter-text"
+              maxlength="-1"
+              placeholder="每行一个小标题，如：老师寄语"
+            ></textarea>
+          </div>
+
+          <div class="section-card">
+            <div class="section-kicker">第三步</div>
+            <div class="section-title">先看一下排版好的效果</div>
+            <div class="section-desc" id="preview-summary"></div>
+            <div class="preview-badge-row" id="preview-badges-row"></div>
+            <div class="effect-preview-shell" id="compact-preview-shell"></div>
+            <button class="primary-button block-button" id="go-preview-button" type="button">查看完整预览</button>
+          </div>
+
+          <div class="bottom-bar">
+            <button class="bottom-secondary" id="studio-bottom-back" type="button">回到模板区</button>
+            <button class="bottom-primary" id="studio-bottom-preview" type="button">查看预览</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="view hidden" id="preview-view">
+        <div class="page-shell preview-page">
+          <div class="page-head">
+            <div class="page-head-copy">
+              <div class="page-head-title">查看效果</div>
+              <div class="page-head-desc">左右翻看，先看封面，再看老师寄语和班级内页。</div>
+            </div>
+            <button class="header-ghost-button" id="preview-back-studio" type="button">返回编辑</button>
+          </div>
+
+          <div class="stage-card">
+            <div class="section-kicker">整本预览</div>
+            <div class="section-title">这本成长册大概会长这样</div>
+            <div class="meta-row" id="preview-meta-row"></div>
+
+            <div class="preview-stage-shell" id="preview-stage-shell"></div>
+
+            <div class="slide-control-row">
+              <button class="secondary-button" id="preview-prev-slide" type="button">上一页</button>
+              <div class="slide-indicator" id="preview-slide-indicator"></div>
+              <button class="primary-button" id="preview-next-slide" type="button">下一页</button>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-kicker">换个模板</div>
+            <div class="section-title">同一批照片，也可以换套风格再看</div>
+            <div class="section-desc">不用重传照片，点一下就能切到小花风、绘本风或贴贴风。</div>
+            <div class="switch-scroll">
+              <div class="switch-row" id="template-switch-row"></div>
+            </div>
+          </div>
+
+          <div class="bottom-bar">
+            <button class="bottom-secondary bottom-action" id="preview-share" type="button">发给家人看看</button>
+            <button class="bottom-primary bottom-action" id="preview-order" type="button">这套可以，继续下单</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="view hidden" id="checkout-view">
+        <div class="page-shell orders-page">
+          <div class="hero-card">
+            <div class="section-kicker">确认下单</div>
+            <div class="hero-title">先确认地址和本数，再去支付</div>
+            <div class="hero-desc">这一步会生成正式订单，支付完成后就会进入制作和物流流程。</div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-title" id="checkout-work-title"></div>
+            <div class="section-desc" id="checkout-work-meta"></div>
+            <div class="preview-badge-row" id="checkout-work-badges"></div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-kicker">收货地址</div>
+            <div class="section-desc" id="checkout-address-summary"></div>
+            <button class="secondary-button block-button" id="checkout-change-address" type="button">管理地址</button>
+          </div>
+
+          <div class="section-card">
+            <div class="section-kicker">下单信息</div>
+
+            <label class="field-label" for="checkout-quantity">购买本数</label>
+            <select class="field-input" id="checkout-quantity">
+              <option value="1">1 本</option>
+              <option value="2">2 本</option>
+              <option value="3">3 本</option>
+              <option value="4">4 本</option>
+              <option value="5">5 本</option>
+            </select>
+
+            <label class="field-label field-gap" for="checkout-note">备注信息</label>
+            <textarea class="field-textarea" id="checkout-note" placeholder="例如：双胞胎各一本、封面名字请保持一致"></textarea>
+
+            <div class="summary-meta" id="checkout-amount-row"></div>
+          </div>
+
+          <div class="bottom-bar">
+            <button class="bottom-secondary" id="checkout-back-preview" type="button">返回预览</button>
+            <button class="bottom-primary" id="checkout-submit" type="button">生成订单</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="view hidden" id="payment-view">
+        <div class="page-shell orders-page">
+          <div class="hero-card">
+            <div class="section-kicker">模拟支付</div>
+            <div class="hero-title">订单已经生成，继续完成支付</div>
+            <div class="hero-desc">这里先用本地模拟支付，后续接微信支付时可以保持同一条下单链路。</div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-title" id="payment-order-title"></div>
+            <div class="section-desc" id="payment-order-meta"></div>
+            <div class="summary-meta" id="payment-status-row"></div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-kicker">收货信息</div>
+            <div class="section-desc" id="payment-address"></div>
+            <div class="section-kicker field-gap">支付金额</div>
+            <div class="section-title" id="payment-amount"></div>
+          </div>
+
+          <div class="bottom-bar">
+            <button class="bottom-secondary" id="payment-go-orders" type="button">稍后去订单里看</button>
+            <button class="bottom-primary" id="payment-pay-button" type="button">模拟微信支付</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="view hidden" id="share-view">
+        <div class="page-shell preview-page">
+          <div class="hero-card">
+            <div class="section-kicker">分享纪念册</div>
+            <div class="hero-title">把这版效果发给家人看看</div>
+            <div class="hero-desc">可以直接复制分享链接，也可以打开独立分享页发给家人确认。</div>
+          </div>
+
+          <div class="stage-card">
+            <div class="section-title" id="share-card-title"></div>
+            <div class="section-desc" id="share-card-meta"></div>
+            <div class="preview-stage-shell" id="share-card-shell"></div>
+          </div>
+
+          <div class="section-card">
+            <label class="field-label" for="share-url">分享链接</label>
+            <input class="field-input" id="share-url" readonly />
+            <label class="field-label field-gap" for="share-message">分享文案</label>
+            <textarea class="field-textarea" id="share-message" readonly></textarea>
+          </div>
+
+          <div class="bottom-bar">
+            <button class="bottom-secondary" id="share-back-preview" type="button">返回预览</button>
+            <button class="bottom-secondary" id="share-copy-button" type="button">复制链接</button>
+            <button class="bottom-primary" id="share-open-button" type="button">打开分享页</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="view hidden" id="address-view">
+        <div class="page-shell works-page">
+          <div class="hero-card">
+            <div class="section-kicker">收货地址</div>
+            <div class="hero-title">先把收货信息补好，下单会更顺</div>
+            <div class="hero-desc">支持保存多条地址，默认地址会在结算时自动带出。</div>
+          </div>
+
+          <div class="section-card" id="address-list"></div>
+
+          <div class="section-card">
+            <div class="section-title" id="address-form-title">新增地址</div>
+            <input id="address-id" type="hidden" />
+
+            <label class="field-label" for="address-receiver">收货人</label>
+            <input class="field-input" id="address-receiver" placeholder="例如：王妈妈" />
+
+            <label class="field-label field-gap" for="address-phone">手机号</label>
+            <input class="field-input" id="address-phone" placeholder="例如：13812345678" />
+
+            <label class="field-label field-gap" for="address-region">省市区</label>
+            <input class="field-input" id="address-region" placeholder="例如：上海市 浦东新区" />
+
+            <label class="field-label field-gap" for="address-detail">详细地址</label>
+            <textarea class="field-textarea" id="address-detail" placeholder="例如：晨曦路 18 号 2 单元 301 室"></textarea>
+
+            <label class="field-checkbox field-gap">
+              <input id="address-default" type="checkbox" />
+              <span>设为默认地址</span>
+            </label>
+
+            <button class="primary-button block-button" id="address-save-button" type="button">保存地址</button>
+          </div>
+
+          <div class="bottom-bar">
+            <button class="bottom-secondary" id="address-back-button" type="button">返回</button>
+            <button class="bottom-primary" id="address-new-button" type="button">新增一条</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="view hidden" id="order-detail-view">
+        <div class="page-shell orders-page">
+          <div class="hero-card">
+            <div class="section-kicker">订单详情</div>
+            <div class="hero-title" id="order-detail-title"></div>
+            <div class="hero-desc" id="order-detail-meta"></div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-kicker">订单状态</div>
+            <div class="summary-meta" id="order-detail-status-row"></div>
+            <div class="section-desc" id="order-detail-logistics"></div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-kicker">收货信息</div>
+            <div class="section-desc" id="order-detail-address"></div>
+            <div class="section-kicker field-gap">订单信息</div>
+            <div class="section-desc" id="order-detail-time"></div>
+          </div>
+
+          <div class="bottom-bar">
+            <button class="bottom-secondary" id="order-detail-back-button" type="button">返回订单列表</button>
+            <button class="bottom-primary" id="order-detail-pay-button" type="button">继续支付</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="view hidden" id="works-view">
+        <div class="page-shell works-page">
+          <div class="hero-card">
+            <div class="section-kicker">我的作品</div>
+            <div class="hero-title">做好的成长册，会一份份留在这里</div>
+            <div class="hero-desc">你可以回看效果、继续修改，或者从作品直接继续下单。</div>
+          </div>
+
+          <div class="section-card" id="works-content"></div>
+
+          <div class="bottom-bar">
+            <button class="bottom-secondary" id="works-go-profile" type="button">返回我的</button>
+            <button class="bottom-primary" id="works-go-home" type="button">再做一本</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="view hidden" id="profile-view">
+        <div class="page-shell profile-page">
+          <div class="hero-card profile-hero-card">
+            <button class="hero-main" id="profile-account-action" type="button">
+              <div class="hero-title" id="profile-account-title"></div>
+              <div class="hero-subtitle" id="profile-account-subtitle"></div>
+              <div class="hero-meta" id="profile-account-meta"></div>
+            </button>
+          </div>
+
+          <div class="section-card order-card">
+            <div class="section-title">我的订单</div>
+            <div class="order-shortcut-row" id="order-shortcut-row"></div>
+          </div>
+
+          <div class="section-card list-card">
+            <button class="list-row" id="profile-go-works" type="button">
+              <div class="list-copy">
+                <div class="list-title">我的作品</div>
+                <div class="list-desc" id="profile-work-desc"></div>
+              </div>
+              <div class="list-arrow">›</div>
+            </button>
+
+            <div class="list-divider"></div>
+
+            <button class="list-row" id="profile-go-address" type="button">
+              <div class="list-copy">
+                <div class="list-title">我的地址</div>
+                <div class="list-desc" id="profile-address-desc"></div>
+              </div>
+              <div class="list-arrow">›</div>
+            </button>
+
+            <div class="list-divider"></div>
+
+            <button class="list-row" id="profile-contact" type="button">
+              <div class="list-copy">
+                <div class="list-title">联系我们</div>
+                <div class="list-desc" id="profile-contact-desc"></div>
+              </div>
+              <div class="list-arrow">›</div>
+            </button>
+          </div>
+
+          <div class="section-card about-card">
+            <div class="section-title">关于小页记</div>
+            <div class="about-desc">专注幼儿园成长纪念册，帮家长把毕业礼、班级活动和日常小瞬间留成一本小书。</div>
+            <div class="about-desc">上传照片后，系统会自动完成智能排版，快速生成更适合孩子和班级氛围的纪念册页面。</div>
+          </div>
+
+          <button class="logout-button" id="profile-logout" type="button">
+            <span class="logout-button-text">退出登录</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="view hidden" id="orders-view">
+        <div class="page-shell orders-page">
+          <div class="hero-card">
+            <div class="section-kicker">我的订单</div>
+            <div class="hero-title">支付状态、制作进度和物流信息，都在这里看</div>
+            <div class="hero-desc">提交订单后，你可以随时回来确认这本纪念册走到哪一步了。</div>
+          </div>
+
+          <div class="section-card">
+            <div class="chip-scroll">
+              <div class="chip-row" id="orders-filter-row"></div>
+            </div>
+          </div>
+
+          <div class="section-card" id="orders-content"></div>
+
+          <div class="bottom-bar">
+            <button class="bottom-secondary" id="orders-go-profile" type="button">返回我的</button>
+            <button class="bottom-primary" id="orders-go-home" type="button">去排一本</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <input id="photo-input" type="file" accept="image/*" multiple hidden />
+    <div class="toast" id="toast"></div>
+  </body>
+</html>

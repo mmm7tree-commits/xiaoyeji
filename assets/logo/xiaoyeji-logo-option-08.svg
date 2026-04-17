@@ -1,0 +1,12 @@
+<svg width="420" height="120" viewBox="0 0 420 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="8" y="12" width="96" height="96" rx="28" fill="#EEF7FF"/>
+  <path d="M36 72L60 32L84 72H36Z" fill="#FFD969"/>
+  <path d="M60 32L84 72" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M52 60L68 60" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M30 82C43 82 52 74 60 60C67 70 75 74 86 74" stroke="#74C86A" stroke-width="5" stroke-linecap="round"/>
+  <path d="M60 32V88" stroke="#5EAA68" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="28" cy="34" r="6" fill="#FFA7C1"/>
+  <circle cx="84" cy="24" r="5" fill="#7FCBFF"/>
+  <text x="130" y="56" fill="#3D4A37" font-size="34" font-weight="700" font-family="'SF Pro Rounded','PingFang SC','Hiragino Sans GB',sans-serif">小页记</text>
+  <text x="130" y="84" fill="#79866F" font-size="16" font-weight="600" font-family="'SF Pro Rounded','PingFang SC','Hiragino Sans GB',sans-serif">像春游风筝一样轻快的纪念册</text>
+</svg>

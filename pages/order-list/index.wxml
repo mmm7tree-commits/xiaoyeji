@@ -1,0 +1,56 @@
+<view class="page-shell order-list-page">
+  <block wx:if="{{!loggedIn}}">
+    <view class="card login-card">
+      <view class="section-title">先登录，再看自己的订单</view>
+      <view class="section-subtitle">登录后可以查看已生成的订单、状态变化和地址信息。</view>
+      <button wx:if="{{showLoginButton}}" class="primary-btn login-btn" bindtap="authorizeProfile">微信授权</button>
+      <button class="ghost-btn login-btn" bindtap="goProfile">回到我的页</button>
+    </view>
+  </block>
+
+  <block wx:else>
+    <view class="section-head">
+      <view>
+        <view class="section-title">我的订单</view>
+        <view class="section-subtitle">这里先统一查看订单状态，后续会在这条链路接入支付。</view>
+      </view>
+    </view>
+
+    <view class="filter-row" wx:if="{{filters.length}}">
+      <view
+        wx:for="{{filters}}"
+        wx:key="code"
+        class="filter-pill {{item.activeClass}}"
+        data-code="{{item.code}}"
+        bindtap="switchFilter"
+      >
+        {{item.label}} {{item.count}}
+      </view>
+    </view>
+
+    <view wx:if="{{visibleOrders.length}}" class="order-list">
+      <view wx:for="{{visibleOrders}}" wx:key="id" class="order-card card">
+        <view class="between">
+          <view>
+            <view class="order-title">{{item.workTitle}}</view>
+            <view class="order-meta">{{item.orderNo}} · {{item.createdText}}</view>
+          </view>
+          <view class="pill {{item.statusClass}}">{{item.statusText}}</view>
+        </view>
+        <view class="order-line">{{item.previewMetaText}}</view>
+        <view class="order-line">{{item.nextStepText}}</view>
+        <view class="between order-footer">
+          <text>{{item.quantityText}}</text>
+          <text class="order-amount">{{item.amountText}}</text>
+        </view>
+        <button class="primary-btn order-btn" data-id="{{item.id}}" bindtap="openOrderDetail">查看订单详情</button>
+      </view>
+    </view>
+
+    <view wx:else class="empty-state">
+      <view class="empty-title">{{emptyTitle}}</view>
+      <view class="empty-text">{{emptyText}}</view>
+      <button class="primary-btn empty-btn" bindtap="goWorks">去看我的作品</button>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,16 @@
+<svg width="420" height="120" viewBox="0 0 420 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="8" y="12" width="96" height="96" rx="28" fill="#FFF7E8"/>
+  <rect x="30" y="32" width="52" height="40" rx="14" fill="#FFFFFF"/>
+  <circle cx="47" cy="48" r="3" fill="#74C86A"/>
+  <circle cx="65" cy="48" r="3" fill="#74C86A"/>
+  <path d="M45 58C49 62 54 64 60 64C66 64 71 62 75 58" stroke="#F09A64" stroke-width="4" stroke-linecap="round"/>
+  <path d="M56 72V82" stroke="#74C86A" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="56" cy="21" r="7" fill="#FFD969"/>
+  <circle cx="44" cy="26" r="7" fill="#FFA5BF"/>
+  <circle cx="68" cy="26" r="7" fill="#FFA5BF"/>
+  <circle cx="44" cy="14" r="7" fill="#7FCBFF"/>
+  <circle cx="68" cy="14" r="7" fill="#7FCBFF"/>
+  <circle cx="56" cy="9" r="7" fill="#74C86A"/>
+  <text x="130" y="56" fill="#3D4A37" font-size="34" font-weight="700" font-family="'SF Pro Rounded','PingFang SC','Hiragino Sans GB',sans-serif">小页记</text>
+  <text x="130" y="84" fill="#79866F" font-size="16" font-weight="600" font-family="'SF Pro Rounded','PingFang SC','Hiragino Sans GB',sans-serif">笑脸花朵版幼儿园小书</text>
+</svg>

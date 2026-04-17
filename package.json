@@ -1,0 +1,25 @@
+{
+  "name": "xiaoyeji-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.8.0",
+  "scripts": {
+    "sync:legacy-runtime": "node ./scripts/sync-legacy-runtime.mjs .env.dev",
+    "dev:admin": "./scripts/pnpmw --filter @xiaoyeji/admin-web dev",
+    "dev:api": "./scripts/pnpmw --filter @xiaoyeji/api-server dev",
+    "dev:legacy-demo": "node server.js",
+    "build:admin": "./scripts/pnpmw --filter @xiaoyeji/admin-web build",
+    "build:api": "./scripts/pnpmw --filter @xiaoyeji/api-server build",
+    "lint": "./scripts/pnpmw --filter @xiaoyeji/admin-web lint && ./scripts/pnpmw --filter @xiaoyeji/api-server lint",
+    "check": "./scripts/pnpmw --filter @xiaoyeji/admin-web typecheck && ./scripts/pnpmw --filter @xiaoyeji/api-server lint && ./scripts/pnpmw --filter @xiaoyeji/miniapp typecheck"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.1",
+    "eslint": "^9.25.1",
+    "eslint-plugin-vue": "^9.33.0",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "typescript-eslint": "^8.30.1",
+    "vue-eslint-parser": "^10.1.1"
+  }
+}

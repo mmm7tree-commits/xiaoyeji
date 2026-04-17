@@ -1,0 +1,67 @@
+<view class="page-shell works-page">
+  <view class="section-head">
+    <view>
+      <view class="section-title">我的作品</view>
+      <view class="section-subtitle">{{summaryText}}</view>
+    </view>
+    <button class="ghost-btn" bindtap="goHome">去制作</button>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty-state">
+    <view class="empty-title">正在同步我的作品</view>
+    <view class="empty-text">这次会优先读取后端作品列表，再把结果同步回当前设备缓存。</view>
+  </view>
+
+  <view wx:elif="{{works.length}}" class="filter-row">
+    <view
+      wx:for="{{filters}}"
+      wx:key="code"
+      class="filter-pill {{activeFilter == item.code ? 'active' : ''}}"
+      data-code="{{item.code}}"
+      bindtap="switchFilter"
+    >
+      {{item.label}}
+    </view>
+  </view>
+
+  <view wx:if="{{!loading && filteredWorks.length}}" class="work-list">
+    <view wx:for="{{filteredWorks}}" wx:key="id" class="work-card card">
+      <view class="work-cover" style="background: linear-gradient(135deg, {{item.coverTone}}, {{item.accentTone}});">
+        <image wx:if="{{item.coverPhoto}}" class="work-cover-img" src="{{item.coverPhoto}}" mode="aspectFill" lazy-load="true"></image>
+        <view wx:else class="work-cover-placeholder">小页记</view>
+        <view class="work-status">{{item.statusText}}</view>
+      </view>
+      <view class="work-body">
+        <view class="between">
+          <view>
+            <view class="work-title">{{item.title}}</view>
+            <view class="work-meta">{{item.scene}} · {{item.createdText}}</view>
+          </view>
+          <view class="work-page-count">{{item.pageCountText}}</view>
+        </view>
+        <view class="work-info">
+          <text class="pill green">{{item.photoCountText}}</text>
+          <text class="pill blue">{{item.pageCountText}}</text>
+          <text class="pill">{{item.templateName}}</text>
+        </view>
+        <view class="work-actions">
+          <button class="secondary-btn" data-id="{{item.id}}" bindtap="previewWork">回看预览</button>
+          <button class="primary-btn" data-id="{{item.id}}" bindtap="openWorkDetail">查看详情</button>
+          <button class="ghost-btn danger-btn" data-id="{{item.id}}" bindtap="deleteWork">删除</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:elif="{{!loading && works.length}}" class="empty-state">
+    <view class="empty-title">当前分类下还没有作品</view>
+    <view class="empty-text">可以先切换到其他状态，或者继续去制作新的纪念册。</view>
+    <button class="primary-btn empty-btn" bindtap="goHome">继续制作</button>
+  </view>
+
+  <view wx:else class="empty-state">
+    <view class="empty-title">还没有保存过作品</view>
+    <view class="empty-text">先去选一套模板，补上照片和封面信息，再把当前内容保存下来。</view>
+    <button class="primary-btn empty-btn" bindtap="goHome">开始制作</button>
+  </view>
+</view>

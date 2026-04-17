@@ -1,0 +1,17 @@
+<svg width="420" height="120" viewBox="0 0 420 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="8" y="12" width="96" height="96" rx="30" fill="#FFF9DD"/>
+  <circle cx="60" cy="37" r="16" fill="#FFD766"/>
+  <path d="M60 12V22" stroke="#F2B84B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M60 52V62" stroke="#F2B84B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M35 37H25" stroke="#F2B84B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M95 37H85" stroke="#F2B84B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M42 20L35 13" stroke="#F2B84B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M78 20L85 13" stroke="#F2B84B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M42 54L35 61" stroke="#F2B84B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M78 54L85 61" stroke="#F2B84B" stroke-width="4" stroke-linecap="round"/>
+  <rect x="28" y="57" width="64" height="28" rx="14" fill="#FFFFFF"/>
+  <path d="M40 69H80" stroke="#7AC769" stroke-width="4" stroke-linecap="round"/>
+  <path d="M60 60V82" stroke="#7AC769" stroke-width="4" stroke-linecap="round"/>
+  <text x="130" y="56" fill="#3D4937" font-size="34" font-weight="700" font-family="'SF Pro Rounded','PingFang SC','Hiragino Sans GB',sans-serif">小页记</text>
+  <text x="130" y="84" fill="#7B866F" font-size="16" font-weight="600" font-family="'SF Pro Rounded','PingFang SC','Hiragino Sans GB',sans-serif">小太阳一样亮亮的纪念册</text>
+</svg>

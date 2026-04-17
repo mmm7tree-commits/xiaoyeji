@@ -1,0 +1,25 @@
+{
+  "name": "@xiaoyeji/api-server",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "dotenv -e ../../.env.dev -- nest start --watch",
+    "build": "nest build",
+    "start": "dotenv -e ../../.env.dev -- node dist/main.js",
+    "lint": "eslint \"src/**/*.ts\""
+  },
+  "dependencies": {
+    "@nestjs/jwt": "^11.0.1",
+    "@nestjs/common": "^11.0.11",
+    "@nestjs/core": "^11.0.11",
+    "@nestjs/platform-express": "^11.0.11",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "@nestjs/cli": "^11.0.7",
+    "dotenv-cli": "^8.0.0",
+    "typescript": "^5.8.3"
+  }
+}
