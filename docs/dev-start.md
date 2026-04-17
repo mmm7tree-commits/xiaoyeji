@@ -14,6 +14,11 @@ pnpm install
 ./scripts/pnpmw install
 ```
 
+部署与测试环境同步方式请优先查看：
+
+- `docs/deploy/github-sync-flow.md`
+- `docs/deploy/test-environment-1panel.md`
+
 ## 2. 启动后台骨架
 
 ```bash
@@ -445,11 +450,10 @@ docker compose -f docker-compose.test.yml ...
 请改走：
 
 ```bash
-cd deploy/docker
+cd /opt/xiaoyeji/api/deploy/docker
 cp .env.test.example .env.test
-docker compose -f docker-compose.1panel.yml --env-file .env.test up -d --build
-cd ../..
-bash deploy/docker/publish-admin-static.sh deploy/docker/.env.test
+cd /opt/xiaoyeji/api
+bash deploy/scripts/sync-test-env.sh
 ```
 
 然后把：

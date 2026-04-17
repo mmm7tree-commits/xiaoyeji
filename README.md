@@ -171,6 +171,29 @@ Milestone 16 已额外补齐：
 - `/opt/xiaoyeji/runtime/uploads`
 - `/opt/xiaoyeji/backups`
 
+## 当前正式代码与同步口径
+
+当前 GitHub `main` 已经收成 clean `main`，后续：
+
+- 本地开发认远程 `main`
+- 测试环境认远程 `main`
+- Codex 后续修改也认这条主线
+
+测试环境唯一正式同步方式固定为：
+
+```bash
+cd /opt/xiaoyeji/api
+bash deploy/scripts/sync-test-env.sh
+```
+
+说明：
+
+- `B：标准化同步脚本` 是当前唯一正式口径
+- `A：手动 git fetch/reset + 手动重建` 只作为备选
+- `C：GitHub Actions 推送式同步` 作为后续增强，不在当前阶段强行接完
+
+后台静态发布已经固定为容器化方式，不再依赖宿主机 `pnpm install`。
+
 ## 快速开始
 
 ### 安装依赖
@@ -240,6 +263,7 @@ pnpm sync:legacy-runtime
 - 项目结构说明：`docs/project-structure.md`
 - 开发启动说明：`docs/dev-start.md`
 - 环境变量说明：`docs/deploy/environment-variables.md`
+- GitHub 主线同步方式：`docs/deploy/github-sync-flow.md`
 - demo 迁移映射：`docs/architecture/demo-migration-map.md`
 - 鉴权接口说明：`docs/api/auth.md`
 - 模板接口说明：`docs/api/templates.md`

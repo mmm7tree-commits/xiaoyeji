@@ -36,6 +36,7 @@
   - 构建后台静态资源
   - 发布到服务器目录
   - 供 1Panel/OpenResty 直接读取静态文件
+  - 当前已固定为 Docker 容器化构建，不再依赖宿主机 `pnpm`
 
 - `.env.test.example`
   - 测试环境的最小变量模板
@@ -51,12 +52,15 @@ docker compose -f docker-compose.test.yml --env-file .env.test up -d --build
 如果服务器已经由 1Panel 管理 OpenResty，请改用：
 
 ```bash
-cd deploy/docker
-cp .env.test.example .env.test
-docker compose -f docker-compose.1panel.yml --env-file .env.test up -d --build
-cd ../..
-bash deploy/docker/publish-admin-static.sh deploy/docker/.env.test
+cd /opt/xiaoyeji/api
+bash deploy/scripts/sync-test-env.sh
 ```
+
+说明：
+
+- `deploy/scripts/sync-test-env.sh` 是 1Panel 场景下唯一正式同步入口
+- `deploy/scripts/rebuild-api.sh` 用于只重建 API
+- `deploy/scripts/publish-admin.sh` 用于只发布后台静态文件
 
 ## 持久化目录
 

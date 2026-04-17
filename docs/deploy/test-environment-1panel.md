@@ -11,11 +11,32 @@
 因此，这套方案会采用：
 
 - `api-server` 通过 Docker Compose 启动
-- `admin-web` 构建为静态文件并发布到服务器目录
+- `admin-web` 通过 Docker 构建静态文件并发布到服务器目录
 - 由 1Panel/OpenResty 统一承接：
   - `/` -> admin 静态站点
   - `/api/` -> api-server
   - `/storage/` -> api-server 文件资源
+
+## 当前正式同步方式
+
+M17 收口后，测试环境唯一正式同步方式固定为：
+
+```bash
+cd /opt/xiaoyeji/api
+bash deploy/scripts/sync-test-env.sh
+```
+
+这条脚本会统一完成：
+
+1. 从 GitHub 拉取最新 `main`
+2. 将代码重置到 `origin/main`
+3. 通过 Docker 重建 `api-server`
+4. 通过 Docker 构建并发布后台静态文件
+
+说明：
+
+- `A：手动 git fetch/reset + 手动重建` 只保留为备选排障口径
+- `C：GitHub Actions 推送式同步` 作为后续增强，不在本轮强行接完
 
 ## 1. 当前服务器目录规划
 
@@ -92,7 +113,14 @@ AUTH_OPERATOR_NAME=运营同学
 
 1Panel 场景不要再使用 `docker-compose.test.yml`，因为它包含 `openresty` 服务，会和现有 OpenResty 冲突。
 
-请改用：
+当前 API 的正式重建入口是：
+
+```bash
+cd /opt/xiaoyeji/api
+bash deploy/scripts/rebuild-api.sh
+```
+
+脚本内部实际执行的是：
 
 ```bash
 cd /opt/xiaoyeji/api/deploy/docker
@@ -107,18 +135,24 @@ docker compose -f docker-compose.1panel.yml --env-file .env.test up -d --build
 
 ## 4. admin-web 静态文件构建与发布
 
-在项目根目录执行：
+后台静态文件的正式发布入口是：
 
 ```bash
 cd /opt/xiaoyeji/api
-bash deploy/docker/publish-admin-static.sh deploy/docker/.env.test
+bash deploy/scripts/publish-admin.sh
 ```
+
+`publish-admin.sh` 会调用：
+
+- `deploy/docker/publish-admin-static.sh`
+
+当前正式发布方式已经固定为容器化构建，不再依赖宿主机 `npm/pnpm`。
 
 脚本会：
 
-1. 构建 `admin-web`
-2. 发布 `apps/admin-web/dist`
-3. 把根目录 `assets/` 一起复制到 `/opt/1panel/www/sites/admin/index/assets`
+1. 使用 `deploy/docker/admin-web.Dockerfile` 进行 Docker 构建
+2. 从临时容器拷贝 `/usr/share/nginx/html`
+3. 发布到 `/opt/1panel/www/sites/admin/index`
 
 ## 5. 1Panel/OpenResty 配置方式
 
@@ -164,12 +198,15 @@ location /storage/ {
 cd /opt/xiaoyeji
 git clone <仓库地址> api
 cd /opt/xiaoyeji/api
-pnpm install
 cd deploy/docker
 cp .env.test.example .env.test
-docker compose -f docker-compose.1panel.yml --env-file .env.test up -d --build
+```
+
+编辑好 `deploy/docker/.env.test` 后，执行：
+
+```bash
 cd /opt/xiaoyeji/api
-bash deploy/docker/publish-admin-static.sh deploy/docker/.env.test
+bash deploy/scripts/sync-test-env.sh
 ```
 
 然后在 1Panel 中：
@@ -183,12 +220,7 @@ bash deploy/docker/publish-admin-static.sh deploy/docker/.env.test
 
 ```bash
 cd /opt/xiaoyeji/api
-git pull
-pnpm install
-cd deploy/docker
-docker compose -f docker-compose.1panel.yml --env-file .env.test up -d --build
-cd /opt/xiaoyeji/api
-bash deploy/docker/publish-admin-static.sh deploy/docker/.env.test
+bash deploy/scripts/sync-test-env.sh
 ```
 
 ## 8. 回滚命令
@@ -197,12 +229,10 @@ bash deploy/docker/publish-admin-static.sh deploy/docker/.env.test
 
 ```bash
 cd /opt/xiaoyeji/api
-git checkout <上一个稳定 tag 或 commit>
-pnpm install
-cd deploy/docker
-docker compose -f docker-compose.1panel.yml --env-file .env.test up -d --build
-cd /opt/xiaoyeji/api
-bash deploy/docker/publish-admin-static.sh deploy/docker/.env.test
+git fetch origin
+git reset --hard <上一个稳定 commit SHA>
+bash deploy/scripts/rebuild-api.sh
+bash deploy/scripts/publish-admin.sh
 ```
 
 ### 数据回滚
@@ -218,17 +248,33 @@ bash deploy/docker/publish-admin-static.sh deploy/docker/.env.test
 - `runtime/data`
 - `runtime/uploads`
 
+### 备选手动同步口径
+
+仅在标准同步脚本排障时使用：
+
+```bash
+cd /opt/xiaoyeji/api
+git fetch origin main
+git reset --hard origin/main
+bash deploy/scripts/rebuild-api.sh
+bash deploy/scripts/publish-admin.sh
+```
+
 ## 9. 常见故障排查清单
 
 ### 后台首页 404
 
 - 检查 `/opt/1panel/www/sites/admin/index/index.html` 是否存在
-- 检查是否执行过 `publish-admin-static.sh`
+- 检查是否执行过 `bash deploy/scripts/publish-admin.sh`
 - 检查 1Panel 站点根目录是否指向 `/opt/1panel/www/sites/admin/index`
 
 ### `/api/health` 返回 502
 
+先执行：
+
 ```bash
+cd /opt/xiaoyeji/api
+bash deploy/scripts/rebuild-api.sh
 docker compose -f deploy/docker/docker-compose.1panel.yml --env-file deploy/docker/.env.test ps
 docker logs <api-server-container>
 ```
@@ -247,12 +293,14 @@ docker logs <api-server-container>
 ### 后台样式或图片资源 404
 
 - 检查 `/opt/1panel/www/sites/admin/index/assets` 是否已复制
+- 检查 `bash deploy/scripts/publish-admin.sh` 是否执行成功
 - 检查 `VITE_ADMIN_ASSET_BASE_URL` 是否误填成旧开发地址
 
 ### 登录失败
 
 - 检查 `.env.test` 中 `AUTH_*` 是否正确
 - 检查 API 容器是否已重建
+- 检查 `admin.ecomleaf.cn` 站点是否配置了 `/api/` 反代
 
 ## 10. 当前边界
 

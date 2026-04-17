@@ -1,5 +1,27 @@
 # 测试环境最小联调检查清单
 
+## 零、仓库健康度与主线同步
+
+- `git rev-parse HEAD` 与 `git rev-parse origin/main` 一致
+- `git count-objects -vH` 不再出现数百 MiB 级别对象库
+- 远程主线不再包含这些污染路径：
+  - `uploads/`
+  - `server-data/`
+  - `apps/api-server/uploads/`
+  - `deploy/release-bundles/`
+  - `deploy/docker/.env.test`
+  - `data/admin-store.json`
+- 后续普通 push 不再出现 500MB 级别打包
+
+建议检查命令：
+
+```bash
+git rev-parse HEAD
+git rev-parse origin/main
+git count-objects -vH
+git ls-tree -r --name-only origin/main | grep -E '^(uploads/|server-data/|apps/api-server/uploads/|deploy/release-bundles/|deploy/docker/\.env\.test$|data/admin-store\.json$)'
+```
+
 ## 一、基础联通
 
 - 后台首页可打开
