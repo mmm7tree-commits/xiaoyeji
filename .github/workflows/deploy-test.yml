@@ -37,9 +37,53 @@ jobs:
             exit 1
           fi
 
+          echo "Prepare known_hosts: starting diagnostics"
+          echo "DEPLOY_PORT=$DEPLOY_PORT"
+          echo "DEPLOY_HOST_LENGTH=${#DEPLOY_HOST}"
+
+          python3 - <<'PY' "$DEPLOY_HOST" "$DEPLOY_PORT"
+import socket
+import sys
+
+host = sys.argv[1]
+port = int(sys.argv[2])
+
+print("Python DNS lookup start")
+try:
+    infos = socket.getaddrinfo(host, port, type=socket.SOCK_STREAM)
+    addrs = sorted({info[4][0] for info in infos})
+    print(f"Python DNS lookup ok, resolved_count={len(addrs)}")
+except Exception as exc:
+    print(f"Python DNS lookup failed: {exc}")
+    sys.exit(1)
+
+print("Python TCP probe start")
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.settimeout(10)
+try:
+    sock.connect((host, port))
+    print("Python TCP probe ok")
+except Exception as exc:
+    print(f"Python TCP probe failed: {exc}")
+    sys.exit(1)
+finally:
+    sock.close()
+PY
+
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
-          ssh-keyscan -T 10 -p "$DEPLOY_PORT" -H "$DEPLOY_HOST" > ~/.ssh/known_hosts
+          if ! ssh-keyscan -T 10 -p "$DEPLOY_PORT" -H "$DEPLOY_HOST" > ~/.ssh/known_hosts 2> /tmp/ssh-keyscan.stderr; then
+            echo "ssh-keyscan failed"
+            cat /tmp/ssh-keyscan.stderr || true
+            exit 1
+          fi
+
+          if [ ! -s ~/.ssh/known_hosts ]; then
+            echo "ssh-keyscan returned empty known_hosts"
+            cat /tmp/ssh-keyscan.stderr || true
+            exit 1
+          fi
+
           chmod 644 ~/.ssh/known_hosts
 
       - name: Run test environment sync
