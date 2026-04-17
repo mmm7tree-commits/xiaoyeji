@@ -27,9 +27,19 @@ jobs:
         run: |
           : "${TEST_HOST:?Missing TEST_HOST}"
           DEPLOY_PORT="${TEST_PORT:-22}"
+          DEPLOY_HOST="$(printf '%s' "$TEST_HOST" | tr -d '\r' | xargs)"
+          DEPLOY_HOST="${DEPLOY_HOST#http://}"
+          DEPLOY_HOST="${DEPLOY_HOST#https://}"
+          DEPLOY_HOST="${DEPLOY_HOST%%/*}"
+
+          if [ -z "$DEPLOY_HOST" ]; then
+            echo "TEST_HOST is empty after normalization"
+            exit 1
+          fi
+
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
-          ssh-keyscan -p "$DEPLOY_PORT" -H "$TEST_HOST" > ~/.ssh/known_hosts
+          ssh-keyscan -T 10 -p "$DEPLOY_PORT" -H "$DEPLOY_HOST" > ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
       - name: Run test environment sync
@@ -44,11 +54,20 @@ jobs:
           : "${TEST_USER:?Missing TEST_USER}"
           : "${TEST_PROJECT_DIR:?Missing TEST_PROJECT_DIR}"
           DEPLOY_PORT="${TEST_PORT:-22}"
+          DEPLOY_HOST="$(printf '%s' "$TEST_HOST" | tr -d '\r' | xargs)"
+          DEPLOY_HOST="${DEPLOY_HOST#http://}"
+          DEPLOY_HOST="${DEPLOY_HOST#https://}"
+          DEPLOY_HOST="${DEPLOY_HOST%%/*}"
+
+          if [ -z "$DEPLOY_HOST" ]; then
+            echo "TEST_HOST is empty after normalization"
+            exit 1
+          fi
 
           ssh \
             -i ~/.ssh/test_deploy_key \
             -o BatchMode=yes \
             -o StrictHostKeyChecking=yes \
             -p "$DEPLOY_PORT" \
-            "${TEST_USER}@${TEST_HOST}" \
+            "${TEST_USER}@${DEPLOY_HOST}" \
             "cd '$TEST_PROJECT_DIR' && bash deploy/scripts/sync-test-env.sh"
