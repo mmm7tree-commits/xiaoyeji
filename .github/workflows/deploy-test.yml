@@ -42,33 +42,33 @@ jobs:
           echo "DEPLOY_HOST_LENGTH=${#DEPLOY_HOST}"
 
           python3 - <<'PY' "$DEPLOY_HOST" "$DEPLOY_PORT"
-import socket
-import sys
+          import socket
+          import sys
 
-host = sys.argv[1]
-port = int(sys.argv[2])
+          host = sys.argv[1]
+          port = int(sys.argv[2])
 
-print("Python DNS lookup start")
-try:
-    infos = socket.getaddrinfo(host, port, type=socket.SOCK_STREAM)
-    addrs = sorted({info[4][0] for info in infos})
-    print(f"Python DNS lookup ok, resolved_count={len(addrs)}")
-except Exception as exc:
-    print(f"Python DNS lookup failed: {exc}")
-    sys.exit(1)
+          print("Python DNS lookup start")
+          try:
+              infos = socket.getaddrinfo(host, port, type=socket.SOCK_STREAM)
+              addrs = sorted({info[4][0] for info in infos})
+              print(f"Python DNS lookup ok, resolved_count={len(addrs)}")
+          except Exception as exc:
+              print(f"Python DNS lookup failed: {exc}")
+              sys.exit(1)
 
-print("Python TCP probe start")
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.settimeout(10)
-try:
-    sock.connect((host, port))
-    print("Python TCP probe ok")
-except Exception as exc:
-    print(f"Python TCP probe failed: {exc}")
-    sys.exit(1)
-finally:
-    sock.close()
-PY
+          print("Python TCP probe start")
+          sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+          sock.settimeout(10)
+          try:
+              sock.connect((host, port))
+              print("Python TCP probe ok")
+          except Exception as exc:
+              print(f"Python TCP probe failed: {exc}")
+              sys.exit(1)
+          finally:
+              sock.close()
+          PY
 
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
