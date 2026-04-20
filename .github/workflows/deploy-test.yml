@@ -6,10 +6,16 @@ on:
       - main
   workflow_dispatch:
 
+concurrency:
+  group: deploy-test
+  cancel-in-progress: true
+
 jobs:
   deploy-test:
     name: Sync Test Server
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+    timeout-minutes: 20
     steps:
       - name: Prepare SSH key
         shell: bash
